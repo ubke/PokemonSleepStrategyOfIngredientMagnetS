@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokemonSleepCooking for Shokuzai GET S</title>
+    <style>
+        /* 簡単なデザイン設定 (本来はstyle.cssに書く内容ですが、手軽にするためここにまとめました) */
+        body { font-family: sans-serif; padding: 20px; background-color: #f0f4f8; }
+        h1 { font-size: 1.2rem; color: #333; text-align: center; }
+        
+        /* 食材ボタンのエリア */
+        .ingredient-group { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 20px; }
+        .chip {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            background: white;
+            cursor: pointer;
+            user-select: none;
+        }
+        .chip.selected {
+            background-color: #e0f7fa;
+            border-color: #00bcd4;
+            color: #006064;
+            font-weight: bold;
+        }
+
+        /* レシピカードのエリア */
+        .recipe-list { display: flex; flex-direction: column; gap: 10px; }
+        .recipe-card {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .recipe-name { font-weight: bold; font-size: 1.1rem; margin-bottom: 5px; }
+        .recipe-info { font-size: 0.9rem; color: #666; }
+        .category-badge {
+            display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; margin-right: 5px; color: white;
+        }
+        .cat-curry { background-color: #ffab91; } /* カレー色 */
+        .cat-salad { background-color: #a5d6a7; } /* サラダ色 */
+        .cat-dessert { background-color: #fff59d; color: #555; } /* デザート色 */
+    </style>
+</head>
+<body>
+
+    <h1>PokemonSleepCooking<br>for Shokuzai GET S</h1>
+
+    <div id="ingredient-container" class="ingredient-group">
+        </div>
+
+    <hr>
+    
+    <h3>作れる料理 (<span id="count">0</span>件)</h3>
+    <div id="recipe-container" class="recipe-list"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
