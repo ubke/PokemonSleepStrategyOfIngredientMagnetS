@@ -5,72 +5,198 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PokemonSleepCooking for Shokuzai GET S</title>
     <style>
-        /* デザイン設定 */
-        body { font-family: sans-serif; padding: 20px; background-color: #f0f4f8; color: #333; }
-        h1 { font-size: 1.5rem; text-align: center; margin-bottom: 10px; }
-        .subtitle { font-size: 0.9rem; text-align: center; color: #666; margin-bottom: 20px; }
+        /* 基本設定 */
+        body {
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
         
-        /* 食材ボタンのエリア */
-        .ingredient-group { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 20px; }
-        .chip {
+        /* --- ヘッダー領域 (青色) --- */
+        header {
+            background-color: #B0C4DE; /* 画像の薄い青色 */
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #90a4be;
+        }
+        .header-title-area {
+            display: flex;
+            align-items: center;
+        }
+        /* タイトル左のアイコン枠（仮） */
+        .header-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #e0e0e0;
+            border: 2px solid #fff;
+            margin-right: 15px;
+            border-radius: 8px;
+        }
+        h1 {
+            font-size: 1.5rem;
+            margin: 0;
+            color: #000;
+            line-height: 1.2;
+        }
+        .dev-name {
+            font-size: 0.8rem;
+            color: #444;
+            text-align: right;
+        }
+
+        /* --- メインコンテンツ --- */
+        main {
+            padding: 0;
+        }
+
+        /* エリア共通タイトルスタイル */
+        .area-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        /* --- 検索条件エリア (ピンク色) --- */
+        #search-status-area {
+            background-color: #FFB6C1; /* 画像の薄いピンク色 */
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e09aa5;
+        }
+        .status-label {
+            font-weight: bold;
+            margin-right: 15px;
+            white-space: nowrap;
+        }
+        #selected-list-display {
+            flex-grow: 1;
+            background-color: rgba(255,255,255,0.7);
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            min-height: 1.2em;
+            margin-right: 15px;
+        }
+        #clear-button {
             padding: 8px 16px;
-            border-radius: 20px;
-            border: 1px solid #ccc;
-            background: white;
+            background-color: #f0f0f0;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        #clear-button:hover { background-color: #e0e0e0; }
+
+        /* --- 食材選択エリア (黄色) --- */
+        #ingredient-selection-area {
+            background-color: #FFFACD; /* 画像の薄い黄色 */
+            padding: 15px 20px;
+            border-bottom: 2px solid #e0dbb0;
+        }
+        .ingredient-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 10px 0;
+        }
+        /* 食材ボタン（チップ） */
+        .chip {
+            font-size: 0.9rem;
+            padding: 8px 16px;
+            border-radius: 24px; /* 丸っこく */
+            border: 2px solid #555; /* 黒い枠線 */
+            background: #fff;
             cursor: pointer;
             user-select: none;
-            transition: all 0.2s;
-        }
-        .chip:hover { background-color: #f5f5f5; }
-        .chip.selected {
-            background-color: #e0f7fa;
-            border-color: #00bcd4;
-            color: #006064;
+            transition: all 0.1s;
             font-weight: bold;
-            box-shadow: 0 2px 4px rgba(0,188,212,0.3);
+        }
+        .chip:hover {
+            background-color: #f0f0f0;
+        }
+        /* 選択された時のスタイル */
+        .chip.selected {
+            background-color: #4CAF50; /* 緑色 */
+            border-color: #2E7D32;
+            color: white;
         }
 
-        /* レシピカードのエリア */
-        .recipe-list { display: flex; flex-direction: column; gap: 10px; max-width: 600px; margin: 0 auto; }
+        /* --- 検索結果エリア (白色) --- */
+        #search-result-area {
+            padding: 15px 20px;
+            background-color: #ffffff;
+            min-height: 300px;
+        }
+        .recipe-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        /* レシピカードのスタイル（前回の良さを継承） */
         .recipe-card {
-            background: white;
-            padding: 15px;
+            background: #fff;
+            border: 2px solid #eee;
             border-radius: 12px;
+            padding: 15px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            border-left: 5px solid #ccc; /* カテゴリ色用 */
+            border-left-width: 8px; /* カテゴリ色を太く */
         }
-        .recipe-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .recipe-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
         .recipe-name { font-weight: bold; font-size: 1.1rem; }
-        .recipe-energy { font-weight: bold; color: #f57c00; }
+        .energy-val { color: #f57c00; font-weight: bold; }
+        .ing-row { font-size: 0.9rem; color: #555; background-color: #f9f9f9; padding: 8px; border-radius: 8px; }
         
-        .recipe-info { font-size: 0.9rem; color: #555; margin-top: 5px; }
-        .ing-list { color: #333; }
+        /* カテゴリ色 */
+        .type-Curry { border-left-color: #ffab91; } .bg-Curry { background-color: #ff7043; color:white; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right:5px;}
+        .type-Salad { border-left-color: #a5d6a7; } .bg-Salad { background-color: #66bb6a; color:white; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right:5px;}
+        .type-Dessert { border-left-color: #fff59d; } .bg-Dessert { background-color: #fdd835; color:#444; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right:5px;}
 
-        /* カテゴリ別の色設定 */
-        .card-curry { border-left-color: #ffab91; }
-        .card-salad { border-left-color: #a5d6a7; }
-        .card-dessert { border-left-color: #fff59d; }
-        
-        .badge {
-            display: inline-block; padding: 2px 8px; border-radius: 4px; 
-            font-size: 0.7rem; color: #fff; vertical-align: middle; margin-right: 5px;
+        /* スマホ向け調整 */
+        @media (max-width: 600px) {
+            header { flex-direction: column; align-items: flex-start; }
+            .dev-name { align-self: flex-end; margin-top: 8px; }
+            #search-status-area { flex-wrap: wrap; }
+            #selected-list-display { margin-right: 0; margin-bottom: 10px; width: 100%; order: 2; }
+            #clear-button { order: 3; margin-left: auto; }
+            .status-label { width: 100%; margin-bottom: 5px; }
         }
-        .bg-curry { background-color: #ff7043; }
-        .bg-salad { background-color: #66bb6a; }
-        .bg-dessert { background-color: #fdd835; color: #555; }
     </style>
 </head>
 <body>
+    <header>
+        <div class="header-title-area">
+            <div class="header-icon"></div> <h1>PokemonSleepCooking<br>for Shokuzai GET S</h1>
+        </div>
+        <div class="dev-name">Dev: PokemonSleepStrategyOfIngredientMagnetS</div>
+    </header>
 
-    <h1>PokemonSleepCooking<br>for Shokuzai GET S</h1>
-    <div class="subtitle">食材を選んで作れる料理を検索</div>
+    <main>
+        <section id="search-status-area">
+            <div class="status-label">検索条件：</div>
+            <div id="selected-list-display">（食材を選んでください）</div>
+            <button id="clear-button">クリア</button>
+        </section>
 
-    <div id="ingredient-container" class="ingredient-group"></div>
+        <section id="ingredient-selection-area">
+            <div class="area-title">▼食材を選ぶ（タップで選択/解除）</div>
+            <div id="ingredient-container" class="ingredient-group">
+                </div>
+        </section>
 
-    <hr style="border: 0; border-top: 1px solid #ddd; margin: 20px 0;">
-    
-    <h3 style="text-align: center;">作れる料理 (<span id="count">0</span>件)</h3>
-    <div id="recipe-container" class="recipe-list"></div>
+        <section id="search-result-area">
+            <div class="area-title">▼検索結果（作れる料理：<span id="count">0</span>件）</div>
+            <div id="recipe-container" class="recipe-list">
+                <div style="color:#999; padding:20px; text-align:center;">ここに結果が表示されます</div>
+            </div>
+        </section>
+    </main>
 
     <script src="script.js"></script>
 </body>
