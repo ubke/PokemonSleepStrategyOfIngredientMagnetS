@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PokemonSleepCooking for Shokuzai GET S</title>
+    <title>PokemonSleepCooking for 食材ゲットS運用</title>
     <style>
         /* 基本設定 */
         body {
@@ -16,10 +16,10 @@
         
         /* --- ヘッダー領域 (青色) --- */
         header {
-            background-color: #B0C4DE; /* 薄い青色 */
+            background-color: #B0C4DE;
             padding: 15px 20px;
             display: flex;
-            justify-content: space-between;
+            justify-content: center; /* 中央寄せに変更 */
             align-items: center;
             border-bottom: 2px solid #90a4be;
         }
@@ -27,7 +27,6 @@
             display: flex;
             align-items: center;
         }
-        /* タイトル左のアイコン枠 */
         .header-icon {
             width: 40px;
             height: 40px;
@@ -37,15 +36,11 @@
             border-radius: 8px;
         }
         h1 {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             margin: 0;
             color: #000;
             line-height: 1.2;
-        }
-        .dev-name {
-            font-size: 0.8rem;
-            color: #444;
-            text-align: right;
+            text-align: left;
         }
 
         /* --- メインコンテンツ --- */
@@ -56,22 +51,60 @@
         /* エリア共通タイトルスタイル */
         .area-title {
             font-weight: bold;
-            margin-bottom: 10px;
             font-size: 1.1rem;
         }
 
-        /* --- 食材選択エリア (黄色) --- */
+        /* --- 食材選択エリア (黄色・プルダウン仕様) --- */
         #ingredient-selection-area {
-            background-color: #FFFACD; /* 薄い黄色 */
-            padding: 15px 20px;
+            background-color: #FFFACD;
             border-bottom: 2px solid #e0dbb0;
         }
+        
+        /* 開閉の仕組み（details/summary） */
+        details {
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        details[open] {
+            padding-bottom: 20px;
+        }
+        summary {
+            font-weight: bold;
+            font-size: 1.1rem;
+            outline: none;
+            list-style: none; /* デフォルトの三角を消す(一部ブラウザ用) */
+            display: flex;
+            align-items: center;
+            color: #555;
+        }
+        /* 自前の三角アイコン */
+        summary::after {
+            content: "▼";
+            font-size: 0.8rem;
+            margin-left: 10px;
+            transition: transform 0.2s;
+        }
+        details[open] summary::after {
+            transform: rotate(180deg); /* 開いたら回転 */
+        }
+        /* Chrome等のデフォルト三角を消す */
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
         .ingredient-group {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            padding: 10px 0;
+            padding-top: 15px;
+            animation: fadeIn 0.3s ease;
         }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* 食材ボタン（チップ） */
         .chip {
             font-size: 0.9rem;
@@ -87,9 +120,8 @@
         .chip:hover {
             background-color: #f0f0f0;
         }
-        /* 選択された時のスタイル */
         .chip.selected {
-            background-color: #4CAF50; /* 緑色 */
+            background-color: #4CAF50;
             border-color: #2E7D32;
             color: white;
         }
@@ -105,45 +137,43 @@
             flex-direction: column;
             gap: 12px;
         }
-        /* レシピカードのスタイル */
         .recipe-card {
             background: #fff;
             border: 2px solid #eee;
             border-radius: 12px;
             padding: 15px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            border-left-width: 8px; /* カテゴリ色を太く */
+            border-left-width: 8px;
         }
         .recipe-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
         .recipe-name { font-weight: bold; font-size: 1.1rem; }
         .energy-val { color: #f57c00; font-weight: bold; }
         .ing-row { font-size: 0.9rem; color: #555; background-color: #f9f9f9; padding: 8px; border-radius: 8px; }
         
-        /* カテゴリ色 */
         .type-Curry { border-left-color: #ffab91; } .bg-Curry { background-color: #ff7043; color:white; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right:5px;}
         .type-Salad { border-left-color: #a5d6a7; } .bg-Salad { background-color: #66bb6a; color:white; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right:5px;}
         .type-Dessert { border-left-color: #fff59d; } .bg-Dessert { background-color: #fdd835; color:#444; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right:5px;}
 
-        /* スマホ向け調整 */
         @media (max-width: 600px) {
-            header { flex-direction: column; align-items: flex-start; }
-            .dev-name { align-self: flex-end; margin-top: 8px; }
+            header { justify-content: flex-start; }
         }
     </style>
 </head>
 <body>
     <header>
         <div class="header-title-area">
-            <div class="header-icon"></div> <h1>PokemonSleepCooking<br>for Shokuzai GET S</h1>
+            <div class="header-icon"></div>
+            <h1>PokemonSleepCooking<br>for 食材ゲットS運用</h1>
         </div>
-        <div class="dev-name">Dev: PokemonSleepStrategyOfIngredientMagnetS</div>
-    </header>
+        </header>
 
     <main>
         <section id="ingredient-selection-area">
-            <div class="area-title">▼食材を選ぶ（タップで選択/解除）</div>
-            <div id="ingredient-container" class="ingredient-group">
-                </div>
+            <details>
+                <summary>食材を選ぶ（タップで開く）</summary>
+                <div id="ingredient-container" class="ingredient-group">
+                    </div>
+            </details>
         </section>
 
         <section id="search-result-area">
