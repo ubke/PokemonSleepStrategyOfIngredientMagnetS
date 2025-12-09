@@ -53,33 +53,53 @@ function toggleIngredient(ing) {
     updateDisplay();
 }
 
-// レシピに必要な食材が、すべて選択済みかどうかをチェック
 function isCookable(recipe) {
     const recipeIngs = Object.keys(recipe.ingredients);
     return recipeIngs.every(ing => selectedIngredients.has(ing));
 }
 
 function updateDisplay() {
-    // 1. 食材ボタンの更新
-    allIngredients.forEach(ing => {
-        const btn = document.getElementById('btn-' + ing);
-        if (btn) {
-            if (selectedIngredients.has(ing)) btn.classList.add('selected');
-            else btn.classList.remove('selected');
-        }
-    });
-
-    // 2. レシピリストの更新
-    recipeContainer.innerHTML = '';
-    
-    // (A) 1つでも食材が一致するレシピを抽出
-    let results = allRecipes.filter(recipe => {
+    // 1. まず検索結果（ヒットする料理）を計算する
+    //    これを先にやらないと「関与している数」が計算できないため
+    const results = allRecipes.filter(recipe => {
         if (selectedIngredients.size === 0) return false;
         const recipeIngs = Object.keys(recipe.ingredients);
         return recipeIngs.some(ri => selectedIngredients.has(ri));
     });
 
-    // (B) 「作れるもの」を先頭に並び替え
+    // 2. 食材ボタンの更新（選択状態 ＆ 関与数の表示）
+    allIngredients.forEach(ing => {
+        const btn = document.getElementById('btn-' + ing);
+        if (btn) {
+            const icon = iconMap[ing] || "";
+
+            if (selectedIngredients.has(ing)) {
+                // 選択されている時：色は緑、数字は出さない（または単に名前だけ）
+                btn.classList.add('selected');
+                btn.textContent = `${icon} ${ing}`;
+            } else {
+                // 選択されていない時：色は白
+                btn.classList.remove('selected');
+                
+                // ★今回の追加機能：関与している料理数をカウント
+                // 「現在ヒットしている料理(results)」の中で、「その食材(ing)」を使っているものを数える
+                const count = results.filter(r => r.ingredients[ing] !== undefined).length;
+                
+                if (count > 0) {
+                    // 関与している料理があれば (3) のように表示
+                    btn.textContent = `${icon} ${ing} (${count})`;
+                    btn.style.opacity = "1";
+                } else {
+                    // 関与していなければ数字なし
+                    btn.textContent = `${icon} ${ing}`;
+                    // (オプション) 全く関係ない食材を薄くしたい場合は以下を有効化
+                    // btn.style.opacity = results.length > 0 ? "0.5" : "1";
+                }
+            }
+        }
+    });
+
+    // 3. 検索結果リストの表示更新（並び替えと描画）
     results.sort((a, b) => {
         const aOk = isCookable(a);
         const bOk = isCookable(b);
@@ -88,6 +108,7 @@ function updateDisplay() {
         return 0; 
     });
 
+    recipeContainer.innerHTML = '';
     countSpan.textContent = results.length;
 
     if (results.length === 0 && selectedIngredients.size > 0) {
@@ -110,19 +131,14 @@ function updateDisplay() {
         
         div.className = `recipe-card ${catClass} ${disabledClass}`;
 
-        // ★食材リストを生成する際、一つ一つ持っているかチェックして色分けする
         const ingHtml = Object.entries(recipe.ingredients)
             .map(([k, v]) => {
                 const icon = iconMap[k] || "";
-                
-                // その食材を持っているか？
                 const hasIt = selectedIngredients.has(k);
-                // 持っていれば 'ing-ok', なければ 'ing-missing' クラスをつける
                 const spanClass = hasIt ? 'ing-ok' : 'ing-missing';
-                
                 return `<span class="${spanClass}">${icon}${k} x${v}</span>`;
             })
-            .join(' / '); // 区切り文字
+            .join(' / ');
         
         div.innerHTML = `
             <div class="recipe-header">
