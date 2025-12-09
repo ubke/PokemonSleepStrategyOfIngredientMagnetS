@@ -16,7 +16,7 @@
         
         /* --- ヘッダー領域 (青色) --- */
         header {
-            background-color: #B0C4DE; /* 画像の薄い青色 */
+            background-color: #B0C4DE; /* 薄い青色 */
             padding: 15px 20px;
             display: flex;
             justify-content: space-between;
@@ -27,7 +27,7 @@
             display: flex;
             align-items: center;
         }
-        /* タイトル左のアイコン枠（仮） */
+        /* タイトル左のアイコン枠 */
         .header-icon {
             width: 40px;
             height: 40px;
@@ -60,43 +60,9 @@
             font-size: 1.1rem;
         }
 
-        /* --- 検索条件エリア (ピンク色) --- */
-        #search-status-area {
-            background-color: #FFB6C1; /* 画像の薄いピンク色 */
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #e09aa5;
-        }
-        .status-label {
-            font-weight: bold;
-            margin-right: 15px;
-            white-space: nowrap;
-        }
-        #selected-list-display {
-            flex-grow: 1;
-            background-color: rgba(255,255,255,0.7);
-            padding: 8px;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            min-height: 1.2em;
-            margin-right: 15px;
-        }
-        #clear-button {
-            padding: 8px 16px;
-            background-color: #f0f0f0;
-            border: 2px solid #ccc;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-        #clear-button:hover { background-color: #e0e0e0; }
-
         /* --- 食材選択エリア (黄色) --- */
         #ingredient-selection-area {
-            background-color: #FFFACD; /* 画像の薄い黄色 */
+            background-color: #FFFACD; /* 薄い黄色 */
             padding: 15px 20px;
             border-bottom: 2px solid #e0dbb0;
         }
@@ -110,8 +76,8 @@
         .chip {
             font-size: 0.9rem;
             padding: 8px 16px;
-            border-radius: 24px; /* 丸っこく */
-            border: 2px solid #555; /* 黒い枠線 */
+            border-radius: 24px;
+            border: 2px solid #555;
             background: #fff;
             cursor: pointer;
             user-select: none;
@@ -139,7 +105,7 @@
             flex-direction: column;
             gap: 12px;
         }
-        /* レシピカードのスタイル（前回の良さを継承） */
+        /* レシピカードのスタイル */
         .recipe-card {
             background: #fff;
             border: 2px solid #eee;
@@ -162,10 +128,6 @@
         @media (max-width: 600px) {
             header { flex-direction: column; align-items: flex-start; }
             .dev-name { align-self: flex-end; margin-top: 8px; }
-            #search-status-area { flex-wrap: wrap; }
-            #selected-list-display { margin-right: 0; margin-bottom: 10px; width: 100%; order: 2; }
-            #clear-button { order: 3; margin-left: auto; }
-            .status-label { width: 100%; margin-bottom: 5px; }
         }
     </style>
 </head>
@@ -178,12 +140,6 @@
     </header>
 
     <main>
-        <section id="search-status-area">
-            <div class="status-label">検索条件：</div>
-            <div id="selected-list-display">（食材を選んでください）</div>
-            <button id="clear-button">クリア</button>
-        </section>
-
         <section id="ingredient-selection-area">
             <div class="area-title">▼食材を選ぶ（タップで選択/解除）</div>
             <div id="ingredient-container" class="ingredient-group">
