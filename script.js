@@ -53,11 +53,9 @@ function toggleIngredient(ing) {
     updateDisplay();
 }
 
-// ★ここが重要な判定関数です
-// レシピに必要な食材が、すべて選択済みかどうかをチェックする
+// レシピに必要な食材が、すべて選択済みかどうかをチェック
 function isCookable(recipe) {
     const recipeIngs = Object.keys(recipe.ingredients);
-    // すべての必要食材について、選択済みセットの中に含まれているか？
     return recipeIngs.every(ing => selectedIngredients.has(ing));
 }
 
@@ -74,22 +72,19 @@ function updateDisplay() {
     // 2. レシピリストの更新
     recipeContainer.innerHTML = '';
     
-    // (A) まず、1つでも食材が一致するレシピをすべて抽出（候補）
+    // (A) 1つでも食材が一致するレシピを抽出
     let results = allRecipes.filter(recipe => {
         if (selectedIngredients.size === 0) return false;
         const recipeIngs = Object.keys(recipe.ingredients);
         return recipeIngs.some(ri => selectedIngredients.has(ri));
     });
 
-    // (B) 候補の中で「作れるもの」を先頭に並び替え（ソート）
+    // (B) 「作れるもの」を先頭に並び替え
     results.sort((a, b) => {
         const aOk = isCookable(a);
         const bOk = isCookable(b);
-        // aが作れてbが作れないなら、aを上に
         if (aOk && !bOk) return -1;
-        // 逆ならbを上に
         if (!aOk && bOk) return 1;
-        // どちらも同じなら元の順序（またはエナジー順など）
         return 0; 
     });
 
@@ -110,22 +105,25 @@ function updateDisplay() {
         if(catLabel === 'Salad') catLabel = 'サラダ';
         if(catLabel === 'Dessert') catLabel = 'デザート';
 
-        // ★作れるかどうかの判定
         const canCook = isCookable(recipe);
-        
-        // ★作れない場合は 'disabled' クラスを追加
         const disabledClass = canCook ? '' : 'disabled';
         
         div.className = `recipe-card ${catClass} ${disabledClass}`;
 
-        const ingText = Object.entries(recipe.ingredients)
+        // ★食材リストを生成する際、一つ一つ持っているかチェックして色分けする
+        const ingHtml = Object.entries(recipe.ingredients)
             .map(([k, v]) => {
                 const icon = iconMap[k] || "";
-                return `${icon}${k} x${v}`;
+                
+                // その食材を持っているか？
+                const hasIt = selectedIngredients.has(k);
+                // 持っていれば 'ing-ok', なければ 'ing-missing' クラスをつける
+                const spanClass = hasIt ? 'ing-ok' : 'ing-missing';
+                
+                return `<span class="${spanClass}">${icon}${k} x${v}</span>`;
             })
-            .join(' / ');
+            .join(' / '); // 区切り文字
         
-        // 作れる場合は「作れる！」バッジを表示したりもできますが、今回はシンプルに
         div.innerHTML = `
             <div class="recipe-header">
                 <div class="recipe-name">
@@ -135,7 +133,7 @@ function updateDisplay() {
                 <div class="energy-val">⚡ ${recipe.baseEnergy.toLocaleString()}</div>
             </div>
             <div class="ing-row">
-                🥕 ${ingText}
+                🥕 ${ingHtml}
             </div>
         `;
         recipeContainer.appendChild(div);
