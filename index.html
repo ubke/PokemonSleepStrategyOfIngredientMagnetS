@@ -167,18 +167,41 @@
             object-fit: cover;
         }
         
-        /* 作れない料理（グレーアウト） */
+        /* 作れない料理のカード自体は、背景を少しグレーにするだけに留める（透明度は下げない） */
         .recipe-card.disabled {
-            opacity: 0.5;           /* 全体を半透明にする */
-            background-color: #f9f9f9; /* 背景を少しグレーにする */
-            filter: grayscale(80%); /* 色味を落とす */
+            background-color: #f2f2f2; /* 薄いグレー背景 */
+            border-color: #ddd;
         }
         
-        /* 作れる料理を目立たせる（オプション） */
+        /* 作れる料理は緑の枠線で強調 */
         .recipe-card:not(.disabled) {
-            border: 2px solid #4CAF50; /* 緑色の枠をつける */
+            border: 2px solid #4CAF50;
+            background-color: #fff;
             box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2);
         }
+
+        /* 食材リストの表示調整 */
+        .ing-row {
+            font-size: 0.9rem;
+            color: #555;
+            background-color: rgba(255,255,255,0.5); /* 背景を少し透けさせる */
+            padding: 10px;
+            border-radius: 8px;
+            line-height: 1.6; /* 行間を広げて見やすく */
+        }
+
+        /* 持っている食材（強調） */
+        .ing-ok {
+            color: #333;
+            font-weight: bold;
+        }
+        
+        /* 足りない食材（グレーアウト） */
+        .ing-missing {
+            color: #aaa; /* 薄いグレー */
+            /* text-decoration: line-through; 取り消し線を入れたい場合はコメントアウトを外す */
+        }
+    </style>
     </style>
     </style>
 </head>
