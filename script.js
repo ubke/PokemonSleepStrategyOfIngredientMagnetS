@@ -1,4 +1,4 @@
-// エクセル「RecipeList」から読み取ったデータベース（前回と同じ）
+// エクセル「RecipeList」から読み取ったデータベース
 const allRecipes = [
     { name: "しんりょくアボカドグラタン", category: "Curry", baseEnergy: 24802, ingredients: { "モーモーミルク": 41, "ほっこりポテト": 20, "ピュアなオイル": 32, "つやつやアボカド": 22 } },
     { name: "いあいぎりすき焼きカレー", category: "Curry", baseEnergy: 20655, ingredients: { "マメミート": 26, "ふといながねぎ": 27, "とくせんエッグ": 22, "あまいミツ": 26 } },
@@ -26,8 +26,6 @@ let selectedIngredients = new Set();
 const ingredientContainer = document.getElementById('ingredient-container');
 const recipeContainer = document.getElementById('recipe-container');
 const countSpan = document.getElementById('count');
-const selectedListDisplay = document.getElementById('selected-list-display');
-const clearButton = document.getElementById('clear-button');
 
 // 初期化処理
 function init() {
@@ -41,9 +39,6 @@ function init() {
         ingredientContainer.appendChild(btn);
     });
 
-    // クリアボタンのイベント設定
-    clearButton.onclick = clearSelection;
-
     // 初回表示更新
     updateDisplay();
 }
@@ -55,12 +50,6 @@ function toggleIngredient(ing) {
     } else {
         selectedIngredients.add(ing);
     }
-    updateDisplay();
-}
-
-// 選択のクリア
-function clearSelection() {
-    selectedIngredients.clear();
     updateDisplay();
 }
 
@@ -78,16 +67,7 @@ function updateDisplay() {
         }
     });
 
-    // 2. ピンクエリアの「検索条件」表示を更新
-    if (selectedIngredients.size > 0) {
-        selectedListDisplay.textContent = Array.from(selectedIngredients).join(', ');
-        selectedListDisplay.style.color = "#333";
-    } else {
-        selectedListDisplay.textContent = "（食材を選んでください）";
-        selectedListDisplay.style.color = "#999";
-    }
-
-    // 3. 検索結果リストを更新
+    // 2. 検索結果リストを更新
     recipeContainer.innerHTML = '';
     
     // 選択された食材を1つでも含むレシピを抽出
