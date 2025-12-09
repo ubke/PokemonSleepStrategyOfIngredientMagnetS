@@ -1,17 +1,18 @@
 // エクセル「RecipeList」から読み取ったデータベース
+// ※レシピボーナス(bonus)のデータを追加しました
 const allRecipes = [
-    { name: "しんりょくアボカドグラタン", category: "Curry", baseEnergy: 24802, ingredients: { "モーモーミルク": 41, "ほっこりポテト": 20, "ピュアなオイル": 32, "つやつやアボカド": 22 } },
-    { name: "いあいぎりすき焼きカレー", category: "Curry", baseEnergy: 20655, ingredients: { "マメミート": 26, "ふといながねぎ": 27, "とくせんエッグ": 22, "あまいミツ": 26 } },
-    { name: "めざめるパワーシチュー", category: "Curry", baseEnergy: 19061, ingredients: { "ワカクサ大豆": 28, "あんみんトマト": 25, "あじわいキノコ": 23, "めざましコーヒー": 16 } },
-    { name: "なりきりバケッチャシチュー", category: "Curry", baseEnergy: 15621, ingredients: { "マメミート": 16, "ほっこりポテト": 18, "あじわいキノコ": 25, "ずっしりカボチャ": 10 } },
-    { name: "じならしワカモレチップス", category: "Salad", baseEnergy: 25162, ingredients: { "ワカクサ大豆": 22, "げきからハーブ": 30, "ワカクサコーン": 25, "つやつやアボカド": 28 } },
-    { name: "まけんきコーヒーサラダ", category: "Salad", baseEnergy: 20218, ingredients: { "マメミート": 28, "ほっこりポテト": 22, "ピュアなオイル": 22, "めざましコーヒー": 28 } },
-    { name: "りんごさんヨーグルトサラダ", category: "Salad", baseEnergy: 19293, ingredients: { "モーモーミルク": 18, "とくせんリンゴ": 28, "とくせんエッグ": 35, "あんみんトマト": 23 } },
-    { name: "はなふぶきミモザサラダ", category: "Salad", baseEnergy: 11811, ingredients: { "マメミート": 12, "ほっこりポテト": 15, "ピュアなオイル": 17, "とくせんエッグ": 25 } },
-    { name: "ドキドキこわいかおパンケーキ", category: "Dessert", baseEnergy: 24354, ingredients: { "とくせんエッグ": 24, "あんみんトマト": 29, "あまいミツ": 32, "ずっしりカボチャ": 18 } },
-    { name: "ドオーのエクレア", category: "Dessert", baseEnergy: 20885, ingredients: { "リラックスカカオ": 30, "モーモーミルク": 26, "あまいミツ": 22, "めざましコーヒー": 24 } },
-    { name: "スパークスパイスコーラ", category: "Dessert", baseEnergy: 17494, ingredients: { "ふといながねぎ": 20, "とくせんリンゴ": 35, "あったかジンジャー": 20, "めざましコーヒー": 12 } },
-    { name: "フラワーギフトマカロン", category: "Dessert", baseEnergy: 13834, ingredients: { "リラックスカカオ": 25, "モーモーミルク": 10, "とくせんエッグ": 25, "あまいミツ": 17 } }
+    { name: "しんりょくアボカドグラタン", category: "Curry", baseEnergy: 24802, bonus: 1.78, ingredients: { "モーモーミルク": 41, "ほっこりポテト": 20, "ピュアなオイル": 32, "つやつやアボカド": 22 } },
+    { name: "いあいぎりすき焼きカレー", category: "Curry", baseEnergy: 20655, bonus: 1.61, ingredients: { "マメミート": 26, "ふといながねぎ": 27, "とくせんエッグ": 22, "あまいミツ": 26 } },
+    { name: "めざめるパワーシチュー", category: "Curry", baseEnergy: 19061, bonus: 1.61, ingredients: { "ワカクサ大豆": 28, "あんみんトマト": 25, "あじわいキノコ": 23, "めざましコーヒー": 16 } },
+    { name: "なりきりバケッチャシチュー", category: "Curry", baseEnergy: 15621, bonus: 1.48, ingredients: { "マメミート": 16, "ほっこりポテト": 18, "あじわいキノコ": 25, "ずっしりカボチャ": 10 } },
+    { name: "じならしワカモレチップス", category: "Salad", baseEnergy: 25162, bonus: 1.78, ingredients: { "ワカクサ大豆": 22, "げきからハーブ": 30, "ワカクサコーン": 25, "つやつやアボカド": 28 } },
+    { name: "まけんきコーヒーサラダ", category: "Salad", baseEnergy: 20218, bonus: 1.61, ingredients: { "マメミート": 28, "ほっこりポテト": 22, "ピュアなオイル": 22, "めざましコーヒー": 28 } },
+    { name: "りんごさんヨーグルトサラダ", category: "Salad", baseEnergy: 19293, bonus: 1.61, ingredients: { "モーモーミルク": 18, "とくせんリンゴ": 28, "とくせんエッグ": 35, "あんみんトマト": 23 } },
+    { name: "はなふぶきミモザサラダ", category: "Salad", baseEnergy: 11811, bonus: 1.35, ingredients: { "マメミート": 12, "ほっこりポテト": 15, "ピュアなオイル": 17, "とくせんエッグ": 25 } },
+    { name: "ドキドキこわいかおパンケーキ", category: "Dessert", baseEnergy: 24354, bonus: 1.78, ingredients: { "とくせんエッグ": 24, "あんみんトマト": 29, "あまいミツ": 32, "ずっしりカボチャ": 18 } },
+    { name: "ドオーのエクレア", category: "Dessert", baseEnergy: 20885, bonus: 1.61, ingredients: { "リラックスカカオ": 30, "モーモーミルク": 26, "あまいミツ": 22, "めざましコーヒー": 24 } },
+    { name: "スパークスパイスコーラ", category: "Dessert", baseEnergy: 17494, bonus: 1.61, ingredients: { "ふといながねぎ": 20, "とくせんリンゴ": 35, "あったかジンジャー": 20, "めざましコーヒー": 12 } },
+    { name: "フラワーギフトマカロン", category: "Dessert", baseEnergy: 13834, bonus: 1.35, ingredients: { "リラックスカカオ": 25, "モーモーミルク": 10, "とくせんエッグ": 25, "あまいミツ": 17 } }
 ];
 
 // --- アイコン設定 ---
@@ -27,17 +28,23 @@ const iconMap = {
 
 const allIngredients = Array.from(new Set(allRecipes.flatMap(r => Object.keys(r.ingredients)))).sort();
 let selectedIngredients = new Set();
+const buttonElements = {}; 
+
 const ingredientContainer = document.getElementById('ingredient-container');
 const recipeContainer = document.getElementById('recipe-container');
 const countSpan = document.getElementById('count');
 
 function init() {
+    ingredientContainer.innerHTML = '';
+    
     allIngredients.forEach(ing => {
         const btn = document.createElement('div');
-        btn.id = 'btn-' + ing;
         btn.className = 'chip';
+        buttonElements[ing] = btn;
+        
         const icon = iconMap[ing] || "❓";
-        btn.textContent = `${icon} ${ing}`;
+        btn.innerHTML = `${icon} ${ing}`; 
+        
         btn.onclick = () => toggleIngredient(ing);
         ingredientContainer.appendChild(btn);
     });
@@ -59,47 +66,34 @@ function isCookable(recipe) {
 }
 
 function updateDisplay() {
-    // 1. まず検索結果（ヒットする料理）を計算する
-    //    これを先にやらないと「関与している数」が計算できないため
     const results = allRecipes.filter(recipe => {
         if (selectedIngredients.size === 0) return false;
         const recipeIngs = Object.keys(recipe.ingredients);
         return recipeIngs.some(ri => selectedIngredients.has(ri));
     });
 
-    // 2. 食材ボタンの更新（選択状態 ＆ 関与数の表示）
+    // 食材ボタンの更新（数字表示）
     allIngredients.forEach(ing => {
-        const btn = document.getElementById('btn-' + ing);
-        if (btn) {
-            const icon = iconMap[ing] || "";
+        const btn = buttonElements[ing];
+        if (!btn) return;
 
-            if (selectedIngredients.has(ing)) {
-                // 選択されている時：色は緑、数字は出さない（または単に名前だけ）
-                btn.classList.add('selected');
-                btn.textContent = `${icon} ${ing}`;
+        const icon = iconMap[ing] || "";
+
+        if (selectedIngredients.has(ing)) {
+            btn.className = 'chip selected';
+            btn.innerHTML = `${icon} ${ing}`;
+        } else {
+            btn.className = 'chip';
+            const count = results.filter(r => r.ingredients.hasOwnProperty(ing)).length;
+            
+            if (count > 0) {
+                btn.innerHTML = `${icon} ${ing} <span style="color:#e91e63; font-weight:bold; margin-left:4px;">(${count})</span>`;
             } else {
-                // 選択されていない時：色は白
-                btn.classList.remove('selected');
-                
-                // ★今回の追加機能：関与している料理数をカウント
-                // 「現在ヒットしている料理(results)」の中で、「その食材(ing)」を使っているものを数える
-                const count = results.filter(r => r.ingredients[ing] !== undefined).length;
-                
-                if (count > 0) {
-                    // 関与している料理があれば (3) のように表示
-                    btn.textContent = `${icon} ${ing} (${count})`;
-                    btn.style.opacity = "1";
-                } else {
-                    // 関与していなければ数字なし
-                    btn.textContent = `${icon} ${ing}`;
-                    // (オプション) 全く関係ない食材を薄くしたい場合は以下を有効化
-                    // btn.style.opacity = results.length > 0 ? "0.5" : "1";
-                }
+                btn.innerHTML = `${icon} ${ing}`;
             }
         }
     });
 
-    // 3. 検索結果リストの表示更新（並び替えと描画）
     results.sort((a, b) => {
         const aOk = isCookable(a);
         const bOk = isCookable(b);
@@ -129,6 +123,9 @@ function updateDisplay() {
         const canCook = isCookable(recipe);
         const disabledClass = canCook ? '' : 'disabled';
         
+        // ★合計食材数の計算
+        const totalCount = Object.values(recipe.ingredients).reduce((sum, num) => sum + num, 0);
+
         div.className = `recipe-card ${catClass} ${disabledClass}`;
 
         const ingHtml = Object.entries(recipe.ingredients)
@@ -140,6 +137,7 @@ function updateDisplay() {
             })
             .join(' / ');
         
+        // ★表示内容に「ボ(レシピボーナス)」と「数(合計食材数)」を追加
         div.innerHTML = `
             <div class="recipe-header">
                 <div class="recipe-name">
@@ -148,6 +146,12 @@ function updateDisplay() {
                 </div>
                 <div class="energy-val">⚡ ${recipe.baseEnergy.toLocaleString()}</div>
             </div>
+            
+            <div style="font-size:0.85rem; color:#666; margin-bottom:6px;">
+                <span style="margin-right:10px;">🍲 数: <b>${totalCount}</b>個</span>
+                <span>✨ ボ: <b>${recipe.bonus.toFixed(2)}</b></span>
+            </div>
+
             <div class="ing-row">
                 🥕 ${ingHtml}
             </div>
