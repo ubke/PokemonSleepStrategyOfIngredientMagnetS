@@ -157,10 +157,6 @@
         @media (max-width: 600px) {
             header { justify-content: flex-start; }
         }
-        /* ...既存のスタイル... */
-
-        /* 元の枠の設定は不要なので削除またはコメントアウト */
-        /* .header-icon { ... } */
         
         /* 新しく追加する画像用の設定 */
         .header-icon-img {
@@ -171,7 +167,19 @@
             object-fit: cover;
         }
         
-        /* ...既存のスタイル... */
+        /* 作れない料理（グレーアウト） */
+        .recipe-card.disabled {
+            opacity: 0.5;           /* 全体を半透明にする */
+            background-color: #f9f9f9; /* 背景を少しグレーにする */
+            filter: grayscale(80%); /* 色味を落とす */
+        }
+        
+        /* 作れる料理を目立たせる（オプション） */
+        .recipe-card:not(.disabled) {
+            border: 2px solid #4CAF50; /* 緑色の枠をつける */
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2);
+        }
+    </style>
     </style>
 </head>
 <body>
