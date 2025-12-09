@@ -14,15 +14,36 @@ const allRecipes = [
     { name: "フラワーギフトマカロン", category: "Dessert", baseEnergy: 13834, ingredients: { "リラックスカカオ": 25, "モーモーミルク": 10, "とくせんエッグ": 25, "あまいミツ": 17 } }
 ];
 
+// --- アイコン設定 (ここで絵文字を指定) ---
+const iconMap = {
+    "とくせんリンゴ": "🍎",
+    "モーモーミルク": "🥛",
+    "ワカクサ大豆": "🟢",      // 豆の代わりに緑の丸
+    "あまいミツ": "🍯",
+    "マメミート": "🥓",
+    "あったかジンジャー": "🔥", // 生姜の代わりに炎
+    "あんみんトマト": "🍅",
+    "とくせんエッグ": "🥚",
+    "ピュアなオイル": "🧴",
+    "ほっこりポテト": "🥔",
+    "げきからハーブ": "🌿",
+    "リラックスカカオ": "🍫",
+    "あじわいキノコ": "🍄",
+    "ふといながねぎ": "🎋",     // 長いネギの代わりに笹
+    "ずっしりカボチャ": "🎃",
+    "ワカクサコーン": "🌽",
+    "つやつやアボカド": "🥑",
+    "めざましコーヒー": "☕",
+    "おいしいシッポ": "🍖"      // 骨付き肉
+};
+
 // --- アプリの動作ロジック ---
 
 // 全食材リストの抽出とソート
 const allIngredients = Array.from(new Set(allRecipes.flatMap(r => Object.keys(r.ingredients)))).sort();
 
-// 選択中の食材を保持するセット
 let selectedIngredients = new Set();
 
-// 画面要素の取得
 const ingredientContainer = document.getElementById('ingredient-container');
 const recipeContainer = document.getElementById('recipe-container');
 const countSpan = document.getElementById('count');
@@ -32,14 +53,17 @@ function init() {
     // 食材ボタンの生成
     allIngredients.forEach(ing => {
         const btn = document.createElement('div');
-        btn.id = 'btn-' + ing; // IDを付与して後で操作しやすくする
+        btn.id = 'btn-' + ing;
         btn.className = 'chip';
-        btn.textContent = ing;
+        
+        // アイコン + 食材名 の形にする
+        const icon = iconMap[ing] || "❓"; // アイコンがない場合の保険
+        btn.textContent = `${icon} ${ing}`;
+        
         btn.onclick = () => toggleIngredient(ing);
         ingredientContainer.appendChild(btn);
     });
 
-    // 初回表示更新
     updateDisplay();
 }
 
@@ -53,9 +77,9 @@ function toggleIngredient(ing) {
     updateDisplay();
 }
 
-// 画面全体の表示を更新するメイン関数
+// 画面全体の表示を更新
 function updateDisplay() {
-    // 1. 食材ボタンの見た目（選択状態）を更新
+    // 1. 食材ボタンの選択状態更新
     allIngredients.forEach(ing => {
         const btn = document.getElementById('btn-' + ing);
         if (btn) {
@@ -67,10 +91,9 @@ function updateDisplay() {
         }
     });
 
-    // 2. 検索結果リストを更新
+    // 2. 検索結果更新
     recipeContainer.innerHTML = '';
     
-    // 選択された食材を1つでも含むレシピを抽出
     const results = allRecipes.filter(recipe => {
         if (selectedIngredients.size === 0) return false;
         const recipeIngs = Object.keys(recipe.ingredients);
@@ -96,8 +119,12 @@ function updateDisplay() {
 
         div.className = `recipe-card ${catClass}`;
 
+        // レシピ内の食材リストにもアイコンをつける
         const ingText = Object.entries(recipe.ingredients)
-            .map(([k, v]) => `${k} x${v}`)
+            .map(([k, v]) => {
+                const icon = iconMap[k] || "";
+                return `${icon}${k} x${v}`;
+            })
             .join(' / ');
 
         div.innerHTML = `
