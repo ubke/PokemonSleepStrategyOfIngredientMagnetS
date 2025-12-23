@@ -298,7 +298,7 @@ function updateDisplay() {
         const bOk = isCookable(b);
         if (aOk && !bOk) return -1;
         if (!aOk && bOk) return 1;
-        // 同じ条件ならエナジーが高い順などにしても良い
+        // 同じ条件ならエナジーが高い順
         return b.baseEnergy - a.baseEnergy; 
     });
 
@@ -335,7 +335,7 @@ function updateDisplay() {
             })
             .join(' / ');
         
-        // 画像パス設定
+        // 画像パス設定（料理名.png）
         const imagePath = `images/${recipe.name}.png`;
 
         div.innerHTML = `
