@@ -117,14 +117,11 @@ function toggleCategory(cat) {
 
 // 食材の全選択ON/OFF切り替え
 function toggleAllIngredients() {
-    // もし今「全て選択」されている状態なら → 全解除
     if (selectedIngredients.size === allIngredients.length) {
         selectedIngredients.clear();
-    } 
-    // それ以外（一部選択、または未選択）なら → 全選択
-    else {
-        selectedIngredients.clear(); // 一旦クリアして
-        allIngredients.forEach(ing => selectedIngredients.add(ing)); // 全部追加
+    } else {
+        selectedIngredients.clear(); 
+        allIngredients.forEach(ing => selectedIngredients.add(ing)); 
     }
     updateDisplay();
 }
@@ -186,14 +183,12 @@ function updateDisplay() {
     });
 
     // 4. 全選択ボタンの見た目更新
-    // 食材全選択ボタン：全て選ばれていたら緑色(selected)にする
     if (selectedIngredients.size === allIngredients.length && allIngredients.length > 0) {
         btnAllIngredients.classList.add('selected');
     } else {
         btnAllIngredients.classList.remove('selected');
     }
 
-    // カテゴリ全選択ボタン：全て選ばれていたら緑色(selected)にする
     if (selectedCategories.size === allCategories.length) {
         btnAllCategories.classList.add('selected');
     } else {
@@ -258,7 +253,7 @@ function updateDisplay() {
                 <span>✨ ボ: <b>${recipe.bonus.toFixed(2)}</b></span>
             </div>
             <div class="ing-row">
-                🥕 ${ingHtml}
+                ${ingHtml}
             </div>
         `;
         recipeContainer.appendChild(div);
