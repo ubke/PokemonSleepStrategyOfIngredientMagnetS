@@ -42,17 +42,27 @@ const iconMap = {
     "つやつやアボカド": "🥑", "めざましコーヒー": "☕", "おいしいシッポ": "🍖"
 };
 
-// --- アプリの動作ロジック ---
+const categoryMap = { 'Curry': 'カレー', 'Salad': 'サラダ', 'Dessert': 'デザート' };
+const allCategories = ['Curry', 'Salad', 'Dessert'];
 
+// --- アプリの状態 ---
 const allIngredients = Array.from(new Set(allRecipes.flatMap(r => Object.keys(r.ingredients)))).sort();
 let selectedIngredients = new Set();
-const buttonElements = {}; 
+// デフォルトでカテゴリは全て選択状態
+let selectedCategories = new Set(allCategories);
 
+// 要素参照
+const buttonElements = {}; 
+const categoryElements = {};
 const ingredientContainer = document.getElementById('ingredient-container');
+const categoryContainer = document.getElementById('category-container');
 const recipeContainer = document.getElementById('recipe-container');
 const countSpan = document.getElementById('count');
+const btnAllIngredients = document.getElementById('btn-all-ingredients');
+const btnAllCategories = document.getElementById('btn-all-categories');
 
 function init() {
+    // 1. 食材ボタン生成
     ingredientContainer.innerHTML = '';
     allIngredients.forEach(ing => {
         const btn = document.createElement('div');
@@ -63,8 +73,27 @@ function init() {
         btn.onclick = () => toggleIngredient(ing);
         ingredientContainer.appendChild(btn);
     });
+
+    // 2. カテゴリボタン生成
+    categoryContainer.innerHTML = '';
+    allCategories.forEach(cat => {
+        const btn = document.createElement('div');
+        // 色分け用のクラスを付与 (cat-Curryなど)
+        btn.className = `chip cat-${cat}`;
+        categoryElements[cat] = btn;
+        btn.innerHTML = categoryMap[cat];
+        btn.onclick = () => toggleCategory(cat);
+        categoryContainer.appendChild(btn);
+    });
+
+    // 3. 全選択ボタンのイベント設定
+    btnAllIngredients.onclick = toggleAllIngredients;
+    btnAllCategories.onclick = toggleAllCategories;
+
     updateDisplay();
 }
+
+// --- 操作ロジック ---
 
 function toggleIngredient(ing) {
     if (selectedIngredients.has(ing)) {
@@ -75,28 +104,69 @@ function toggleIngredient(ing) {
     updateDisplay();
 }
 
+function toggleCategory(cat) {
+    if (selectedCategories.has(cat)) {
+        selectedCategories.delete(cat);
+    } else {
+        selectedCategories.add(cat);
+    }
+    updateDisplay();
+}
+
+function toggleAllIngredients() {
+    // もし全食材が選択済みなら、全解除。それ以外なら全選択。
+    if (selectedIngredients.size === allIngredients.length) {
+        selectedIngredients.clear();
+    } else {
+        // 全選択
+        allIngredients.forEach(ing => selectedIngredients.add(ing));
+    }
+    updateDisplay();
+}
+
+function toggleAllCategories() {
+    // もし全カテゴリ選択済みなら、全解除。それ以外なら全選択。
+    if (selectedCategories.size === allCategories.length) {
+        selectedCategories.clear();
+    } else {
+        allCategories.forEach(cat => selectedCategories.add(cat));
+    }
+    updateDisplay();
+}
+
+// レシピが作れるかチェック
 function isCookable(recipe) {
     const recipeIngs = Object.keys(recipe.ingredients);
     return recipeIngs.every(ing => selectedIngredients.has(ing));
 }
 
+// 画面更新
 function updateDisplay() {
+    // 1. 検索ヒット判定（食材が関連する & カテゴリが選択されている）
     const results = allRecipes.filter(recipe => {
+        // カテゴリチェック
+        if (!selectedCategories.has(recipe.category)) return false;
+
+        // 食材チェック（何も選択してなければヒットなし）
         if (selectedIngredients.size === 0) return false;
+
+        // 一つでも関連食材があればリストアップ対象
         const recipeIngs = Object.keys(recipe.ingredients);
         return recipeIngs.some(ri => selectedIngredients.has(ri));
     });
 
-    // 食材ボタンの更新（数字表示）
+    // 2. 食材ボタンの表示更新
     allIngredients.forEach(ing => {
         const btn = buttonElements[ing];
         if (!btn) return;
         const icon = iconMap[ing] || "";
+
         if (selectedIngredients.has(ing)) {
             btn.className = 'chip selected';
             btn.innerHTML = `${icon} ${ing}`;
         } else {
             btn.className = 'chip';
+            // この食材を選んだら「ヒットする料理」が増える/関与する数
             const count = results.filter(r => r.ingredients.hasOwnProperty(ing)).length;
             if (count > 0) {
                 btn.innerHTML = `${icon} ${ing} <span style="color:#e91e63; font-weight:bold; margin-left:4px;">(${count})</span>`;
@@ -106,7 +176,17 @@ function updateDisplay() {
         }
     });
 
-    // 並び替え：作れるものが先頭
+    // 3. カテゴリボタンの表示更新
+    allCategories.forEach(cat => {
+        const btn = categoryElements[cat];
+        if (selectedCategories.has(cat)) {
+            btn.classList.add('selected');
+        } else {
+            btn.classList.remove('selected');
+        }
+    });
+
+    // 4. レシピリストの並び替え
     results.sort((a, b) => {
         const aOk = isCookable(a);
         const bOk = isCookable(b);
@@ -115,19 +195,18 @@ function updateDisplay() {
         return b.baseEnergy - a.baseEnergy; 
     });
 
+    // 5. 描画
     recipeContainer.innerHTML = '';
     countSpan.textContent = results.length;
 
-    if (results.length === 0 && selectedIngredients.size > 0) {
-        recipeContainer.innerHTML = '<div style="color:#999; padding:20px; text-align:center;">条件に合う料理が見つかりませんでした</div>';
+    if (results.length === 0) {
+        // 食材を選んでいないのか、カテゴリで弾かれたのかでメッセージを変えてもいいが、シンプルに
+        recipeContainer.innerHTML = '<div style="color:#999; padding:20px; text-align:center;">条件に合う料理がありません</div>';
         return;
     }
 
     results.forEach(recipe => {
         const div = document.createElement('div');
-        const catClass = `type-${recipe.category}`;
-        const bgClass = `bg-${recipe.category}`;
-        
         let catLabel = recipe.category;
         if(catLabel === 'Curry') catLabel = 'カレー';
         if(catLabel === 'Salad') catLabel = 'サラダ';
@@ -137,7 +216,7 @@ function updateDisplay() {
         const disabledClass = canCook ? '' : 'disabled';
         const totalCount = Object.values(recipe.ingredients).reduce((sum, num) => sum + num, 0);
 
-        div.className = `recipe-card ${catClass} ${disabledClass}`;
+        div.className = `recipe-card type-${recipe.category} ${disabledClass}`;
 
         const ingHtml = Object.entries(recipe.ingredients)
             .map(([k, v]) => {
@@ -148,27 +227,23 @@ function updateDisplay() {
             })
             .join(' / ');
         
-        // 画像パス設定
         const imagePath = `images/${recipe.name}.png`;
 
         div.innerHTML = `
             <div class="recipe-header">
                 <img src="${imagePath}" alt="${recipe.name}" class="recipe-img" onerror="this.style.display='none'">
-                
                 <div class="recipe-title-group">
                     <div class="recipe-name">
-                        <span class="${bgClass}">${catLabel}</span>
+                        <span class="bg-${recipe.category}">${catLabel}</span>
                         ${recipe.name}
                     </div>
                     <div class="energy-val">⚡ ${recipe.baseEnergy.toLocaleString()}</div>
                 </div>
             </div>
-            
-            <div style="font-size:0.85rem; color:#666; margin-bottom:6px; margin-left: 70px;">
+            <div style="font-size:0.85rem; color:#666; margin-bottom:6px; margin-left: 55px;">
                 <span style="margin-right:10px;">🍲 数: <b>${totalCount}</b>個</span>
                 <span>✨ ボ: <b>${recipe.bonus.toFixed(2)}</b></span>
             </div>
-
             <div class="ing-row">
                 🥕 ${ingHtml}
             </div>
