@@ -335,33 +335,8 @@ function updateDisplay() {
             })
             .join(' / ');
         
-        // 画像パス設定（料理名.png）
+        // 画像パス設定
         const imagePath = `images/${recipe.name}.png`;
 
         div.innerHTML = `
-            <div class="recipe-header">
-                <img src="${imagePath}" alt="${recipe.name}" class="recipe-img" onerror="this.style.display='none'">
-                
-                <div class="recipe-title-group">
-                    <div class="recipe-name">
-                        <span class="${bgClass}">${catLabel}</span>
-                        ${recipe.name}
-                    </div>
-                    <div class="energy-val">⚡ ${recipe.baseEnergy.toLocaleString()}</div>
-                </div>
-            </div>
-            
-            <div style="font-size:0.85rem; color:#666; margin-bottom:6px; margin-left: 70px;">
-                <span style="margin-right:10px;">🍲 数: <b>${totalCount}</b>個</span>
-                <span>✨ ボ: <b>${recipe.bonus.toFixed(2)}</b></span>
-            </div>
-
-            <div class="ing-row">
-                🥕 ${ingHtml}
-            </div>
-        `;
-        recipeContainer.appendChild(div);
-    });
-}
-
-init();
+            <div class="
