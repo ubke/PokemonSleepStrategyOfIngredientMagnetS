@@ -6,137 +6,91 @@
     <title>PokemonSleepCooking for 食材ゲットS運用</title>
     <style>
         /* 基本設定 */
-        body {
-            font-family: "Helvetica Neue", Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #ffffff;
-            color: #333;
-        }
+        body { font-family: "Helvetica Neue", Arial, sans-serif; margin: 0; padding: 0; background-color: #ffffff; color: #333; }
         
-        /* --- ヘッダー領域 (青色) --- */
-        header {
-            background-color: #B0C4DE;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: center; /* 中央寄せ */
-            align-items: center;
-            border-bottom: 2px solid #90a4be;
-        }
-        .header-title-area {
-            display: flex;
-            align-items: center;
-        }
+        /* ヘッダー */
+        header { background-color: #B0C4DE; padding: 15px 20px; display: flex; justify-content: center; align-items: center; border-bottom: 2px solid #90a4be; }
+        .header-title-area { display: flex; align-items: center; }
         /* アプリアイコン画像の設定 */
-        .header-icon-img {
-            width: 40px;
-            height: 40px;
-            margin-right: 15px;
-            border-radius: 8px;
-            object-fit: cover;
-        }
-        h1 {
-            font-size: 1.4rem;
-            margin: 0;
-            color: #000;
-            line-height: 1.2;
-            text-align: left;
-        }
+        .header-icon-img { width: 40px; height: 40px; margin-right: 15px; border-radius: 8px; object-fit: cover; }
+        h1 { font-size: 1.4rem; margin: 0; color: #000; line-height: 1.2; text-align: left; }
 
-        /* --- メインコンテンツ --- */
-        main {
-            padding: 0;
-        }
+        /* メイン */
+        main { padding: 0; }
+        .area-title { font-weight: bold; font-size: 1.1rem; }
 
-        /* エリア共通タイトルスタイル */
-        .area-title {
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
+        /* 食材選択エリア */
+        #ingredient-selection-area { background-color: #FFFACD; border-bottom: 2px solid #e0dbb0; }
+        details { padding: 15px 20px; cursor: pointer; transition: all 0.2s; }
+        details[open] { padding-bottom: 20px; }
+        summary { font-weight: bold; font-size: 1.1rem; outline: none; list-style: none; display: flex; align-items: center; color: #555; }
+        summary::after { content: "▼"; font-size: 0.8rem; margin-left: 10px; transition: transform 0.2s; }
+        details[open] summary::after { transform: rotate(180deg); }
+        summary::-webkit-details-marker { display: none; }
 
-        /* --- 食材選択エリア (黄色・プルダウン仕様) --- */
-        #ingredient-selection-area {
-            background-color: #FFFACD;
-            border-bottom: 2px solid #e0dbb0;
-        }
+        .ingredient-group { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 15px; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* 食材チップ */
+        .chip { font-size: 0.9rem; padding: 8px 16px; border-radius: 24px; border: 2px solid #555; background: #fff; cursor: pointer; user-select: none; transition: all 0.1s; font-weight: bold; }
+        .chip:hover { background-color: #f0f0f0; }
+        .chip.selected { background-color: #4CAF50; border-color: #2E7D32; color: white; }
+
+        /* 検索結果エリア */
+        #search-result-area { padding: 15px 20px; background-color: #ffffff; min-height: 300px; }
+        .recipe-list { display: flex; flex-direction: column; gap: 12px; }
+
+        /* レシピカード */
+        .recipe-card { background: #fff; border: 2px solid #eee; border-radius: 12px; padding: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left-width: 8px; }
+        .recipe-header { display: flex; align-items: center; margin-bottom: 8px; gap: 10px; }
         
-        /* 開閉の仕組み */
-        details {
-            padding: 15px 20px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        details[open] {
-            padding-bottom: 20px;
-        }
-        summary {
-            font-weight: bold;
-            font-size: 1.1rem;
-            outline: none;
-            list-style: none;
-            display: flex;
-            align-items: center;
-            color: #555;
-        }
-        summary::after {
-            content: "▼";
-            font-size: 0.8rem;
-            margin-left: 10px;
-            transition: transform 0.2s;
-        }
-        details[open] summary::after {
-            transform: rotate(180deg);
-        }
-        summary::-webkit-details-marker {
-            display: none;
-        }
+        /* 料理画像のサイズ設定 */
+        .recipe-img { width: 40px; height: 40px; border-radius: 6px; object-fit: cover; border: 1px solid #eee; background-color: #f0f0f0; flex-shrink: 0; }
+        
+        .recipe-title-group { flex-grow: 1; }
+        .recipe-name { font-weight: bold; font-size: 1.1rem; line-height: 1.3; }
+        .energy-val { color: #f57c00; font-weight: bold; white-space: nowrap; }
 
-        .ingredient-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding-top: 15px;
-            animation: fadeIn 0.3s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .recipe-card.disabled { background-color: #f9f9f9; border-color: #ddd; }
+        .recipe-card:not(.disabled) { border: 2px solid #4CAF50; background-color: #fff; box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2); }
 
-        /* 食材ボタン（チップ） */
-        .chip {
-            font-size: 0.9rem;
-            padding: 8px 16px;
-            border-radius: 24px;
-            border: 2px solid #555;
-            background: #fff;
-            cursor: pointer;
-            user-select: none;
-            transition: all 0.1s;
-            font-weight: bold;
-        }
-        .chip:hover {
-            background-color: #f0f0f0;
-        }
-        .chip.selected {
-            background-color: #4CAF50;
-            border-color: #2E7D32;
-            color: white;
-        }
+        .ing-row { font-size: 0.9rem; color: #555; background-color: rgba(255,255,255,0.5); padding: 10px; border-radius: 8px; line-height: 1.6; }
+        .ing-ok { color: #333; font-weight: bold; }
+        .ing-missing { color: #aaa; }
+        
+        /* カテゴリ色 */
+        .type-Curry { border-left-color: #ffab91; } .bg-Curry { background-color: #ff7043; color:white; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right:5px;}
+        .type-Salad { border-left-color: #a5d6a7; } .bg-Salad { background-color: #66bb6a; color:white; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right:5px;}
+        .type-Dessert { border-left-color: #fff59d; } .bg-Dessert { background-color: #fdd835; color:#444; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right:5px;}
 
-        /* --- 検索結果エリア (白色) --- */
-        #search-result-area {
-            padding: 15px 20px;
-            background-color: #ffffff;
-            min-height: 300px;
-        }
-        .recipe-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+        @media (max-width: 600px) { header { justify-content: flex-start; } }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-title-area">
+            <img src="icon.jpg" alt="アプリアイコン" class="header-icon-img">
+            <h1>PokemonSleepCooking<br>for 食材ゲットS運用</h1>
+        </div>
+    </header>
 
-        /* --- レシピカードのスタイル（画像対応版） --- */
-        .recipe-card {
-            background: #fff;
-            border: 2px solid #eee;
+    <main>
+        <section id="ingredient-selection-area">
+            <details>
+                <summary>食材を選ぶ（タップで開く）</summary>
+                <div id="ingredient-container" class="ingredient-group">
+                    </div>
+            </details>
+        </section>
+
+        <section id="search-result-area">
+            <div class="area-title">▼検索結果（作れる料理：<span id="count">0</span>件）</div>
+            <div id="recipe-container" class="recipe-list">
+                <div style="color:#999; padding:20px; text-align:center;">ここに結果が表示されます</div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
