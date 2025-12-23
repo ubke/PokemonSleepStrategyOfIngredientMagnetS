@@ -1,5 +1,4 @@
 // エクセル「RecipeList」から読み取ったデータベース
-// ※レシピボーナス(bonus)のデータを追加しました
 const allRecipes = [
     { name: "しんりょくアボカドグラタン", category: "Curry", baseEnergy: 24802, bonus: 1.78, ingredients: { "モーモーミルク": 41, "ほっこりポテト": 20, "ピュアなオイル": 32, "つやつやアボカド": 22 } },
     { name: "いあいぎりすき焼きカレー", category: "Curry", baseEnergy: 20655, bonus: 1.61, ingredients: { "マメミート": 26, "ふといながねぎ": 27, "とくせんエッグ": 22, "あまいミツ": 26 } },
@@ -36,15 +35,12 @@ const countSpan = document.getElementById('count');
 
 function init() {
     ingredientContainer.innerHTML = '';
-    
     allIngredients.forEach(ing => {
         const btn = document.createElement('div');
         btn.className = 'chip';
         buttonElements[ing] = btn;
-        
         const icon = iconMap[ing] || "❓";
         btn.innerHTML = `${icon} ${ing}`; 
-        
         btn.onclick = () => toggleIngredient(ing);
         ingredientContainer.appendChild(btn);
     });
@@ -72,20 +68,16 @@ function updateDisplay() {
         return recipeIngs.some(ri => selectedIngredients.has(ri));
     });
 
-    // 食材ボタンの更新（数字表示）
     allIngredients.forEach(ing => {
         const btn = buttonElements[ing];
         if (!btn) return;
-
         const icon = iconMap[ing] || "";
-
         if (selectedIngredients.has(ing)) {
             btn.className = 'chip selected';
             btn.innerHTML = `${icon} ${ing}`;
         } else {
             btn.className = 'chip';
             const count = results.filter(r => r.ingredients.hasOwnProperty(ing)).length;
-            
             if (count > 0) {
                 btn.innerHTML = `${icon} ${ing} <span style="color:#e91e63; font-weight:bold; margin-left:4px;">(${count})</span>`;
             } else {
@@ -122,8 +114,6 @@ function updateDisplay() {
 
         const canCook = isCookable(recipe);
         const disabledClass = canCook ? '' : 'disabled';
-        
-        // ★合計食材数の計算
         const totalCount = Object.values(recipe.ingredients).reduce((sum, num) => sum + num, 0);
 
         div.className = `recipe-card ${catClass} ${disabledClass}`;
@@ -137,18 +127,25 @@ function updateDisplay() {
             })
             .join(' / ');
         
-        // ★表示内容に「ボ(レシピボーナス)」と「数(合計食材数)」を追加
+        // ★画像のパスを自動生成 (例: images/しんりょくアボカドグラタン.png)
+        // ※もしアップロードした画像が .jpg なら、下の ".png" を ".jpg" に変えてください
+        const imagePath = `images/${recipe.name}.png`;
+
+        // ★表示内容に画像(imgタグ)を追加し、レイアウトを調整
         div.innerHTML = `
             <div class="recipe-header">
-                <div class="recipe-name">
-                    <span class="${bgClass}">${catLabel}</span>
-                    ${recipe.name}
+                <img src="${imagePath}" alt="${recipe.name}" class="recipe-img" onerror="this.style.display='none'">
+                
+                <div class="recipe-title-group">
+                    <div class="recipe-name">
+                        <span class="${bgClass}">${catLabel}</span>
+                        ${recipe.name}
+                    </div>
+                    <div class="energy-val">⚡ ${recipe.baseEnergy.toLocaleString()}</div>
                 </div>
-                <div class="energy-val">⚡ ${recipe.baseEnergy.toLocaleString()}</div>
             </div>
             
-            <div style="font-size:0.85rem; color:#666; margin-bottom:6px;">
-                <span style="margin-right:10px;">🍲 数: <b>${totalCount}</b>個</span>
+            <div style="font-size:0.85rem; color:#666; margin-bottom:6px; margin-left: 70px;"> <span style="margin-right:10px;">🍲 数: <b>${totalCount}</b>個</span>
                 <span>✨ ボ: <b>${recipe.bonus.toFixed(2)}</b></span>
             </div>
 
