@@ -11,42 +11,59 @@
         /* ヘッダー */
         header { background-color: #B0C4DE; padding: 15px 20px; display: flex; justify-content: center; align-items: center; border-bottom: 2px solid #90a4be; }
         .header-title-area { display: flex; align-items: center; }
-        /* アプリアイコン画像の設定 */
         .header-icon-img { width: 40px; height: 40px; margin-right: 15px; border-radius: 8px; object-fit: cover; }
         h1 { font-size: 1.4rem; margin: 0; color: #000; line-height: 1.2; text-align: left; }
 
         /* メイン */
         main { padding: 0; }
+        
+        /* エリア共通 */
+        section { padding: 15px 20px; border-bottom: 1px solid #eee; }
+        .area-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .area-title { font-weight: bold; font-size: 1.1rem; }
 
         /* 食材選択エリア */
         #ingredient-selection-area { background-color: #FFFACD; border-bottom: 2px solid #e0dbb0; }
-        details { padding: 15px 20px; cursor: pointer; transition: all 0.2s; }
-        details[open] { padding-bottom: 20px; }
-        summary { font-weight: bold; font-size: 1.1rem; outline: none; list-style: none; display: flex; align-items: center; color: #555; }
+        details { cursor: pointer; transition: all 0.2s; }
+        details[open] { padding-bottom: 10px; }
+        summary { font-weight: bold; font-size: 1.1rem; outline: none; list-style: none; display: flex; align-items: center; color: #555; margin-bottom: 10px;}
         summary::after { content: "▼"; font-size: 0.8rem; margin-left: 10px; transition: transform 0.2s; }
         details[open] summary::after { transform: rotate(180deg); }
         summary::-webkit-details-marker { display: none; }
 
-        .ingredient-group { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 15px; animation: fadeIn 0.3s ease; }
+        /* 料理カテゴリ選択エリア */
+        #category-selection-area { background-color: #e0f7fa; border-bottom: 2px solid #b2ebf2; }
+
+        /* ボタン群のコンテナ */
+        .ingredient-group, .category-group { display: flex; flex-wrap: wrap; gap: 10px; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 食材チップ */
+        /* 操作ボタン（全選択など） */
+        .action-btn {
+            font-size: 0.8rem; padding: 4px 12px; border-radius: 4px; border: 1px solid #999; 
+            background: #f0f0f0; cursor: pointer; user-select: none; margin-bottom: 10px; display: inline-block;
+        }
+        .action-btn:hover { background-color: #e0e0e0; }
+        .action-btn:active { background-color: #ccc; }
+
+        /* 食材・カテゴリチップ */
         .chip { font-size: 0.9rem; padding: 8px 16px; border-radius: 24px; border: 2px solid #555; background: #fff; cursor: pointer; user-select: none; transition: all 0.1s; font-weight: bold; }
         .chip:hover { background-color: #f0f0f0; }
         .chip.selected { background-color: #4CAF50; border-color: #2E7D32; color: white; }
 
+        /* カテゴリごとの色分け（選択時） */
+        .chip.cat-Curry.selected { background-color: #ff7043; border-color: #d84315; }
+        .chip.cat-Salad.selected { background-color: #66bb6a; border-color: #2e7d32; }
+        .chip.cat-Dessert.selected { background-color: #fdd835; border-color: #f9a825; color: #333; }
+
         /* 検索結果エリア */
-        #search-result-area { padding: 15px 20px; background-color: #ffffff; min-height: 300px; }
+        #search-result-area { background-color: #ffffff; min-height: 300px; }
         .recipe-list { display: flex; flex-direction: column; gap: 12px; }
 
         /* レシピカード */
         .recipe-card { background: #fff; border: 2px solid #eee; border-radius: 12px; padding: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left-width: 8px; }
         .recipe-header { display: flex; align-items: center; margin-bottom: 8px; gap: 10px; }
-        
-        /* 料理画像のサイズ設定 */
         .recipe-img { width: 40px; height: 40px; border-radius: 6px; object-fit: cover; border: 1px solid #eee; background-color: #f0f0f0; flex-shrink: 0; }
-        
         .recipe-title-group { flex-grow: 1; }
         .recipe-name { font-weight: bold; font-size: 1.1rem; line-height: 1.3; }
         .energy-val { color: #f57c00; font-weight: bold; white-space: nowrap; }
@@ -58,7 +75,7 @@
         .ing-ok { color: #333; font-weight: bold; }
         .ing-missing { color: #aaa; }
         
-        /* カテゴリ色 */
+        /* カードの左枠色 */
         .type-Curry { border-left-color: #ffab91; } .bg-Curry { background-color: #ff7043; color:white; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right:5px;}
         .type-Salad { border-left-color: #a5d6a7; } .bg-Salad { background-color: #66bb6a; color:white; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right:5px;}
         .type-Dessert { border-left-color: #fff59d; } .bg-Dessert { background-color: #fdd835; color:#444; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right:5px;}
@@ -78,13 +95,27 @@
         <section id="ingredient-selection-area">
             <details>
                 <summary>食材を選ぶ（タップで開く）</summary>
+                
+                <div id="btn-all-ingredients" class="action-btn">全選択 ON/OFF</div>
+                
                 <div id="ingredient-container" class="ingredient-group">
                     </div>
             </details>
         </section>
 
+        <section id="category-selection-area">
+            <div class="area-header">
+                <div class="area-title">料理の種類を選ぶ</div>
+            </div>
+            
+            <div id="btn-all-categories" class="action-btn">全選択 ON/OFF</div>
+
+            <div id="category-container" class="category-group">
+                </div>
+        </section>
+
         <section id="search-result-area">
-            <div class="area-title">▼検索結果（作れる料理：<span id="count">0</span>件）</div>
+            <div class="area-title" style="margin-bottom:10px;">▼検索結果（作れる料理：<span id="count">0</span>件）</div>
             <div id="recipe-container" class="recipe-list">
                 <div style="color:#999; padding:20px; text-align:center;">ここに結果が表示されます</div>
             </div>
