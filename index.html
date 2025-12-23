@@ -19,7 +19,7 @@
             background-color: #B0C4DE;
             padding: 15px 20px;
             display: flex;
-            justify-content: center; /* 中央寄せに変更 */
+            justify-content: center; /* 中央寄せ */
             align-items: center;
             border-bottom: 2px solid #90a4be;
         }
@@ -27,13 +27,13 @@
             display: flex;
             align-items: center;
         }
-        .header-icon {
+        /* アプリアイコン画像の設定 */
+        .header-icon-img {
             width: 40px;
             height: 40px;
-            background-color: #e0e0e0;
-            border: 2px solid #fff;
             margin-right: 15px;
             border-radius: 8px;
+            object-fit: cover;
         }
         h1 {
             font-size: 1.4rem;
@@ -60,7 +60,7 @@
             border-bottom: 2px solid #e0dbb0;
         }
         
-        /* 開閉の仕組み（details/summary） */
+        /* 開閉の仕組み */
         details {
             padding: 15px 20px;
             cursor: pointer;
@@ -73,12 +73,11 @@
             font-weight: bold;
             font-size: 1.1rem;
             outline: none;
-            list-style: none; /* デフォルトの三角を消す(一部ブラウザ用) */
+            list-style: none;
             display: flex;
             align-items: center;
             color: #555;
         }
-        /* 自前の三角アイコン */
         summary::after {
             content: "▼";
             font-size: 0.8rem;
@@ -86,9 +85,8 @@
             transition: transform 0.2s;
         }
         details[open] summary::after {
-            transform: rotate(180deg); /* 開いたら回転 */
+            transform: rotate(180deg);
         }
-        /* Chrome等のデフォルト三角を消す */
         summary::-webkit-details-marker {
             display: none;
         }
@@ -137,142 +135,8 @@
             flex-direction: column;
             gap: 12px;
         }
-        
-       /* --- レシピカードのスタイル（画像対応版） --- */
+
+        /* --- レシピカードのスタイル（画像対応版） --- */
         .recipe-card {
             background: #fff;
             border: 2px solid #eee;
-            border-radius: 12px;
-            padding: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            border-left-width: 8px;
-        }
-        
-        /* ヘッダーのレイアウトを調整（画像、名前、エナジーを横並びに） */
-        .recipe-header { 
-            display: flex; 
-            align-items: center; /* 上下中央揃え */
-            margin-bottom: 8px; 
-            gap: 10px; /* アイテム間の隙間 */
-        }
-        
-        /* 新しく追加：料理画像のスタイル */
-        .recipe-img {
-            width: 60px;
-            height: 60px;
-            border-radius: 8px;
-            object-fit: cover; /* 枠に合わせてトリミング */
-            border: 1px solid #eee;
-            background-color: #f0f0f0; /* 画像読み込み中の背景色 */
-        }
-
-        /* 名前とエナジーをまとめるグループ */
-        .recipe-title-group {
-            flex-grow: 1; /* 残りのスペースを埋める */
-        }
-
-        .recipe-name { font-weight: bold; font-size: 1.1rem; line-height: 1.3; }
-        .energy-val { color: #f57c00; font-weight: bold; white-space: nowrap; }
-
-        /* 作れない料理のスタイル */
-        .recipe-card.disabled {
-            background-color: #f9f9f9;
-            border-color: #ddd;
-        }
-        /* 作れる料理のスタイル */
-        .recipe-card:not(.disabled) {
-            border: 2px solid #4CAF50;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2);
-        }
-
-        .ing-row {
-            font-size: 0.9rem; color: #555; background-color: rgba(255,255,255,0.5);
-            padding: 10px; border-radius: 8px; line-height: 1.6;
-        }
-        .ing-ok { color: #333; font-weight: bold; }
-        .ing-missing { color: #aaa; }
-        
-        .type-Curry { border-left-color: #ffab91; } .bg-Curry { background-color: #ff7043; color:white; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right:5px;}
-        .type-Salad { border-left-color: #a5d6a7; } .bg-Salad { background-color: #66bb6a; color:white; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right:5px;}
-        .type-Dessert { border-left-color: #fff59d; } .bg-Dessert { background-color: #fdd835; color:#444; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-right:5px;}
-
-        @media (max-width: 600px) {
-            header { justify-content: flex-start; }
-        }
-        
-        /* 新しく追加する画像用の設定 */
-        .header-icon-img {
-            width: 40px;  /* ←ここを50pxから40pxに変更 */
-            height: 40px; /* ←ここを50pxから40pxに変更 */
-            margin-right: 15px;
-            border-radius: 8px;
-            object-fit: cover;
-        }
-        
-        /* 作れない料理のカード自体は、背景を少しグレーにするだけに留める（透明度は下げない） */
-        .recipe-card.disabled {
-            background-color: #f2f2f2; /* 薄いグレー背景 */
-            border-color: #ddd;
-        }
-        
-        /* 作れる料理は緑の枠線で強調 */
-        .recipe-card:not(.disabled) {
-            border: 2px solid #4CAF50;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2);
-        }
-
-        /* 食材リストの表示調整 */
-        .ing-row {
-            font-size: 0.9rem;
-            color: #555;
-            background-color: rgba(255,255,255,0.5); /* 背景を少し透けさせる */
-            padding: 10px;
-            border-radius: 8px;
-            line-height: 1.6; /* 行間を広げて見やすく */
-        }
-
-        /* 持っている食材（強調） */
-        .ing-ok {
-            color: #333;
-            font-weight: bold;
-        }
-        
-        /* 足りない食材（グレーアウト） */
-        .ing-missing {
-            color: #aaa; /* 薄いグレー */
-            /* text-decoration: line-through; 取り消し線を入れたい場合はコメントアウトを外す */
-        }
-    </style>
-    </style>
-    </style>
-</head>
-<body>
-    <header>
-        <div class="header-title-area">
-            <img src="icon.jpg" alt="アプリアイコン" class="header-icon-img">
-            <h1>PokemonSleepCooking<br>for 食材ゲットS運用</h1>
-        </div>
-    </header>
-
-    <main>
-        <section id="ingredient-selection-area">
-            <details>
-                <summary>食材を選ぶ（タップで開く）</summary>
-                <div id="ingredient-container" class="ingredient-group">
-                    </div>
-            </details>
-        </section>
-
-        <section id="search-result-area">
-            <div class="area-title">▼検索結果（作れる料理：<span id="count">0</span>件）</div>
-            <div id="recipe-container" class="recipe-list">
-                <div style="color:#999; padding:20px; text-align:center;">ここに結果が表示されます</div>
-            </div>
-        </section>
-    </main>
-
-    <script src="script.js"></script>
-</body>
-</html>
