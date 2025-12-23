@@ -54,14 +54,17 @@ let selectedCategories = new Set(allCategories);
 // 要素参照
 const buttonElements = {}; 
 const categoryElements = {};
-const ingredientContainer = document.getElementById('ingredient-container');
-const categoryContainer = document.getElementById('category-container');
-const recipeContainer = document.getElementById('recipe-container');
-const countSpan = document.getElementById('count');
-const btnAllIngredients = document.getElementById('btn-all-ingredients');
-const btnAllCategories = document.getElementById('btn-all-categories');
+let ingredientContainer, categoryContainer, recipeContainer, countSpan, btnAllIngredients, btnAllCategories;
 
 function init() {
+    // DOM要素の取得
+    ingredientContainer = document.getElementById('ingredient-container');
+    categoryContainer = document.getElementById('category-container');
+    recipeContainer = document.getElementById('recipe-container');
+    countSpan = document.getElementById('count');
+    btnAllIngredients = document.getElementById('btn-all-ingredients');
+    btnAllCategories = document.getElementById('btn-all-categories');
+
     // 1. 食材ボタン生成
     ingredientContainer.innerHTML = '';
     allIngredients.forEach(ing => {
@@ -78,7 +81,6 @@ function init() {
     categoryContainer.innerHTML = '';
     allCategories.forEach(cat => {
         const btn = document.createElement('div');
-        // 色分け用のクラスを付与 (cat-Curryなど)
         btn.className = `chip cat-${cat}`;
         categoryElements[cat] = btn;
         btn.innerHTML = categoryMap[cat];
@@ -113,28 +115,31 @@ function toggleCategory(cat) {
     updateDisplay();
 }
 
+// 食材の全選択ON/OFF切り替え
 function toggleAllIngredients() {
-    // もし全食材が選択済みなら、全解除。それ以外なら全選択。
+    // もし今「全て選択」されている状態なら → 全解除
     if (selectedIngredients.size === allIngredients.length) {
         selectedIngredients.clear();
-    } else {
-        // 全選択
-        allIngredients.forEach(ing => selectedIngredients.add(ing));
+    } 
+    // それ以外（一部選択、または未選択）なら → 全選択
+    else {
+        selectedIngredients.clear(); // 一旦クリアして
+        allIngredients.forEach(ing => selectedIngredients.add(ing)); // 全部追加
     }
     updateDisplay();
 }
 
+// カテゴリの全選択ON/OFF切り替え
 function toggleAllCategories() {
-    // もし全カテゴリ選択済みなら、全解除。それ以外なら全選択。
     if (selectedCategories.size === allCategories.length) {
         selectedCategories.clear();
     } else {
+        selectedCategories.clear();
         allCategories.forEach(cat => selectedCategories.add(cat));
     }
     updateDisplay();
 }
 
-// レシピが作れるかチェック
 function isCookable(recipe) {
     const recipeIngs = Object.keys(recipe.ingredients);
     return recipeIngs.every(ing => selectedIngredients.has(ing));
@@ -142,15 +147,10 @@ function isCookable(recipe) {
 
 // 画面更新
 function updateDisplay() {
-    // 1. 検索ヒット判定（食材が関連する & カテゴリが選択されている）
+    // 1. 検索ヒット判定
     const results = allRecipes.filter(recipe => {
-        // カテゴリチェック
         if (!selectedCategories.has(recipe.category)) return false;
-
-        // 食材チェック（何も選択してなければヒットなし）
         if (selectedIngredients.size === 0) return false;
-
-        // 一つでも関連食材があればリストアップ対象
         const recipeIngs = Object.keys(recipe.ingredients);
         return recipeIngs.some(ri => selectedIngredients.has(ri));
     });
@@ -166,7 +166,6 @@ function updateDisplay() {
             btn.innerHTML = `${icon} ${ing}`;
         } else {
             btn.className = 'chip';
-            // この食材を選んだら「ヒットする料理」が増える/関与する数
             const count = results.filter(r => r.ingredients.hasOwnProperty(ing)).length;
             if (count > 0) {
                 btn.innerHTML = `${icon} ${ing} <span style="color:#e91e63; font-weight:bold; margin-left:4px;">(${count})</span>`;
@@ -186,7 +185,22 @@ function updateDisplay() {
         }
     });
 
-    // 4. レシピリストの並び替え
+    // 4. 全選択ボタンの見た目更新
+    // 食材全選択ボタン：全て選ばれていたら緑色(selected)にする
+    if (selectedIngredients.size === allIngredients.length && allIngredients.length > 0) {
+        btnAllIngredients.classList.add('selected');
+    } else {
+        btnAllIngredients.classList.remove('selected');
+    }
+
+    // カテゴリ全選択ボタン：全て選ばれていたら緑色(selected)にする
+    if (selectedCategories.size === allCategories.length) {
+        btnAllCategories.classList.add('selected');
+    } else {
+        btnAllCategories.classList.remove('selected');
+    }
+
+    // 5. レシピリストの並び替え
     results.sort((a, b) => {
         const aOk = isCookable(a);
         const bOk = isCookable(b);
@@ -195,12 +209,11 @@ function updateDisplay() {
         return b.baseEnergy - a.baseEnergy; 
     });
 
-    // 5. 描画
+    // 6. 描画
     recipeContainer.innerHTML = '';
     countSpan.textContent = results.length;
 
     if (results.length === 0) {
-        // 食材を選んでいないのか、カテゴリで弾かれたのかでメッセージを変えてもいいが、シンプルに
         recipeContainer.innerHTML = '<div style="color:#999; padding:20px; text-align:center;">条件に合う料理がありません</div>';
         return;
     }
