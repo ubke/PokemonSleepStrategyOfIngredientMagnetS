@@ -34,9 +34,9 @@
         /* 料理カテゴリ選択エリア */
         #category-selection-area { background-color: #e0f7fa; border-bottom: 2px solid #b2ebf2; }
 
-        /* エナジーフィルター（新設） */
+        /* エナジーフィルター */
         .energy-filter-area { margin-top: 15px; border-top: 1px dashed #aaa; padding-top: 12px; font-weight: bold; color: #444; }
-        .energy-input { width: 80px; padding: 6px; border-radius: 4px; border: 1px solid #888; font-size: 1rem; text-align: right; margin-right: 5px; margin-left: 5px; }
+        .energy-input { width: 90px; padding: 6px; border-radius: 4px; border: 1px solid #888; font-size: 1rem; text-align: right; margin-right: 5px; margin-left: 5px; }
 
         /* ボタン群のコンテナ */
         .ingredient-group, .category-group { display: flex; flex-wrap: wrap; gap: 10px; animation: fadeIn 0.3s ease; }
@@ -121,7 +121,7 @@
             <div class="energy-filter-area">
                 <label>
                     ⚡ エナジー
-                    <input type="number" id="energy-threshold" class="energy-input" placeholder="0" min="0">
+                    <input type="number" id="energy-threshold" class="energy-input" placeholder="0" min="0" step="1000">
                     以下の料理は除外
                 </label>
             </div>
