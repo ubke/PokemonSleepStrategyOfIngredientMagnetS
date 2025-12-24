@@ -22,14 +22,16 @@
         .area-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .area-title { font-weight: bold; font-size: 1.1rem; }
 
-        /* 食材選択エリア */
-        #ingredient-selection-area { background-color: #FFFACD; border-bottom: 2px solid #e0dbb0; }
+        /* 開閉エリア（details/summary）共通設定 */
         details { cursor: pointer; transition: all 0.2s; }
         details[open] { padding-bottom: 10px; }
         summary { font-weight: bold; font-size: 1.1rem; outline: none; list-style: none; display: flex; align-items: center; color: #555; margin-bottom: 10px;}
         summary::after { content: "▼"; font-size: 0.8rem; margin-left: 10px; transition: transform 0.2s; }
         details[open] summary::after { transform: rotate(180deg); }
         summary::-webkit-details-marker { display: none; }
+
+        /* 食材選択エリア */
+        #ingredient-selection-area { background-color: #FFFACD; border-bottom: 2px solid #e0dbb0; }
 
         /* 料理カテゴリ選択エリア */
         #category-selection-area { background-color: #e0f7fa; border-bottom: 2px solid #b2ebf2; }
@@ -109,22 +111,22 @@
         </section>
 
         <section id="category-selection-area">
-            <div class="area-header">
-                <div class="area-title">料理の種類を選ぶ</div>
-            </div>
-            
-            <div id="btn-all-categories" class="action-btn">全選択 ON/OFF</div>
+            <details>
+                <summary>料理の種類を選ぶ（タップで開く）</summary>
+                
+                <div id="btn-all-categories" class="action-btn">全選択 ON/OFF</div>
 
-            <div id="category-container" class="category-group">
+                <div id="category-container" class="category-group">
+                    </div>
+
+                <div class="energy-filter-area">
+                    <label>
+                        ⚡ エナジー
+                        <input type="number" id="energy-threshold" class="energy-input" placeholder="0" min="0" step="1000">
+                        以下の料理は除外
+                    </label>
                 </div>
-
-            <div class="energy-filter-area">
-                <label>
-                    ⚡ エナジー
-                    <input type="number" id="energy-threshold" class="energy-input" placeholder="0" min="0" step="1000">
-                    以下の料理は除外
-                </label>
-            </div>
+            </details>
         </section>
 
         <section id="search-result-area">
