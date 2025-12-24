@@ -1,4 +1,4 @@
-// エクセル「RecipeList」から正確に読み取ったデータベース
+// エクセル「RecipeList」から一字一句正確に読み取ったデータベース（全74種）
 const allRecipes = [
   {
     "name": "しんりょくアボカドグラタン",
@@ -33,14 +33,21 @@ const allRecipes = [
     "category": "Curry",
     "baseEnergy": 13690,
     "bonus": 1.48,
-    "ingredients": { "マメミート": 24, "げきからハーブ": 27, "ワカクサコーン": 14, "あったかジンジャー": 12 }
+    "ingredients": { "マメミート": 24, "げきからハーブ": 27, "あったかジンジャー": 12, "ワカクサコーン": 14 }
+  },
+  {
+    "name": "ニンジャカレー",
+    "category": "Curry",
+    "baseEnergy": 9445,
+    "bonus": 1.48,
+    "ingredients": { "ワカクサ大豆": 24, "マメミート": 9, "ふといながねぎ": 12, "あじわいキノコ": 5 }
   },
   {
     "name": "ぜったいねむりバターカレー",
     "category": "Curry",
-    "baseEnergy": 11556,
+    "baseEnergy": 9010,
     "bonus": 1.35,
-    "ingredients": { "モーモーミルク": 10, "ほっこりポテト": 18, "あんみんトマト": 15, "リラックスカカオ": 12 }
+    "ingredients": { "リラックスカカオ": 12, "モーモーミルク": 10, "ほっこりポテト": 18, "あんみんトマト": 15 }
   },
   {
     "name": "あぶりテールカレー",
@@ -50,53 +57,46 @@ const allRecipes = [
     "ingredients": { "げきからハーブ": 25, "おいしいシッポ": 8 }
   },
   {
-    "name": "キノコのほうしカレー",
+    "name": "からくちネギもりカレー",
     "category": "Curry",
-    "baseEnergy": 6430,
-    "bonus": 1.21,
-    "ingredients": { "あじわいキノコ": 14, "ほっこりポテト": 9 }
+    "baseEnergy": 5900,
+    "bonus": 1.25,
+    "ingredients": { "ふといながねぎ": 14, "げきからハーブ": 8, "あったかジンジャー": 10 }
+  },
+  {
+    "name": "ピヨピヨパンチ辛口カレー",
+    "category": "Curry",
+    "baseEnergy": 5702,
+    "bonus": 1.35,
+    "ingredients": { "げきからハーブ": 11, "あまいミツ": 11, "めざましコーヒー": 11 }
+  },
+  {
+    "name": "じゅうなんコーンシチュー",
+    "category": "Curry",
+    "baseEnergy": 4670,
+    "bonus": 1.25,
+    "ingredients": { "モーモーミルク": 8, "ほっこりポテト": 8, "ワカクサコーン": 14 }
   },
   {
     "name": "おやこあいカレー",
     "category": "Curry",
-    "baseEnergy": 5832,
-    "bonus": 1.21,
-    "ingredients": { "ワカクサ大豆": 12, "マメミート": 6, "とくせんエッグ": 8, "ふといながねぎ": 9 }
+    "baseEnergy": 4523,
+    "bonus": 1.25,
+    "ingredients": { "ほっこりポテト": 4, "とくせんリンゴ": 11, "とくせんエッグ": 8, "あまいミツ": 12 }
+  },
+  {
+    "name": "キノコのほうしカレー",
+    "category": "Curry",
+    "baseEnergy": 4162,
+    "bonus": 1.17,
+    "ingredients": { "ほっこりポテト": 9, "あじわいキノコ": 14 }
   },
   {
     "name": "ビルドアップマメカレー",
     "category": "Curry",
-    "baseEnergy": 5683,
-    "bonus": 1.21,
-    "ingredients": { "ワカクサ大豆": 12, "マメミート": 6, "げきからハーブ": 4, "とくせんエッグ": 4 }
-  },
-  {
-    "name": "ニンジャカレー",
-    "category": "Curry",
-    "baseEnergy": 4943,
-    "bonus": 1.21,
-    "ingredients": { "ワカクサ大豆": 15, "マメミート": 9, "ふといながねぎ": 9, "あじわいキノコ": 5 }
-  },
-  {
-    "name": "ソーラーパワー特製キーマカレー",
-    "category": "Curry",
-    "baseEnergy": 4488,
+    "baseEnergy": 3372,
     "bonus": 1.17,
-    "ingredients": { "あんみんトマト": 10, "げきからハーブ": 6, "マメミート": 10 }
-  },
-  {
-    "name": "からくちネギもりカレー",
-    "category": "Curry",
-    "baseEnergy": 4436,
-    "bonus": 1.17,
-    "ingredients": { "ふといながねぎ": 14, "あったかジンジャー": 10, "げきからハーブ": 8 }
-  },
-  {
-    "name": "ふくよかマメカレー",
-    "category": "Curry",
-    "baseEnergy": 3236,
-    "bonus": 1.17,
-    "ingredients": { "ワカクサ大豆": 12, "マメミート": 6, "とくせんエッグ": 4 }
+    "ingredients": { "ワカクサ大豆": 12, "マメミート": 6, "とくせんエッグ": 4, "げきからハーブ": 4 }
   },
   {
     "name": "ほっこりホワイトシチュー",
@@ -179,15 +179,162 @@ const allRecipes = [
     "name": "りんごさんヨーグルトサラダ",
     "category": "Salad",
     "baseEnergy": 19293,
-    "bonus": 1.61,
+    "bonus": 1.47,
     "ingredients": { "モーモーミルク": 18, "とくせんリンゴ": 28, "とくせんエッグ": 35, "あんみんトマト": 23 }
   },
   {
     "name": "はなふぶきミモザサラダ",
     "category": "Salad",
     "baseEnergy": 11811,
-    "bonus": 1.35,
+    "bonus": 1.47,
     "ingredients": { "マメミート": 12, "ほっこりポテト": 15, "ピュアなオイル": 17, "とくせんエッグ": 25 }
+  },
+  {
+    "name": "ニンジャサラダ",
+    "category": "Salad",
+    "baseEnergy": 11659,
+    "bonus": 1.48,
+    "ingredients": { "ふといながねぎ": 15, "あじわいキノコ": 12, "あったかジンジャー": 11, "ワカクサ大豆": 15 }
+  },
+  {
+    "name": "ワカクササラダ",
+    "category": "Salad",
+    "baseEnergy": 11393,
+    "bonus": 1.48,
+    "ingredients": { "ピュアなオイル": 22, "ワカクサコーン": 17, "あんみんトマト": 14, "ほっこりポテト": 9 }
+  },
+  {
+    "name": "クロスチョップドサラダ",
+    "category": "Salad",
+    "baseEnergy": 10925,
+    "bonus": 1.35,
+    "ingredients": { "マメミート": 15, "ワカクサ大豆": 10, "とくせんエッグ": 10, "あんみんトマト": 10 }
+  },
+  {
+    "name": "ヤドンテールのペッパーサラダ",
+    "category": "Salad",
+    "baseEnergy": 8169,
+    "bonus": 1.25,
+    "ingredients": { "おいしいシッポ": 10, "げきからハーブ": 10, "ピュアなオイル": 15 }
+  },
+  {
+    "name": "めいそうスイートサラダ",
+    "category": "Salad",
+    "baseEnergy": 7682,
+    "bonus": 1.25,
+    "ingredients": { "とくせんリンゴ": 21, "あまいミツ": 16, "ワカクサコーン": 12 }
+  },
+  {
+    "name": "くだけるアボカドサラダ",
+    "category": "Salad",
+    "baseEnergy": 5667,
+    "bonus": 1.35,
+    "ingredients": { "マメミート": 5, "ピュアなオイル": 5, "げきからハーブ": 5, "つやつやアボカド": 10 }
+  },
+  {
+    "name": "キノコのほうしサラダ",
+    "category": "Salad",
+    "baseEnergy": 5600,
+    "bonus": 1.25,
+    "ingredients": { "あじわいキノコ": 17, "あんみんトマト": 8, "ピュアなオイル": 8 }
+  },
+  {
+    "name": "オーバーヒートサラダ",
+    "category": "Salad",
+    "baseEnergy": 5176,
+    "bonus": 1.25,
+    "ingredients": { "げきからハーブ": 17, "あんみんトマト": 10, "あったかジンジャー": 6 }
+  },
+  {
+    "name": "くいしんぼうポテトサラダ",
+    "category": "Salad",
+    "baseEnergy": 5040,
+    "bonus": 1.17,
+    "ingredients": { "ほっこりポテト": 14, "とくせんエッグ": 9, "とくせんリンゴ": 7, "マメミート": 6 }
+  },
+  {
+    "name": "ムラっけチョコミートサラダ",
+    "category": "Salad",
+    "baseEnergy": 4929,
+    "bonus": 1.17,
+    "ingredients": { "リラックスカカオ": 14, "マメミート": 9, "げきからハーブ": 7 }
+  },
+  {
+    "name": "うるおいとうふサラダ",
+    "category": "Salad",
+    "baseEnergy": 4443,
+    "bonus": 1.17,
+    "ingredients": { "ワカクサ大豆": 10, "あんみんトマト": 6 }
+  },
+  {
+    "name": "ばかぢからワイルドサラダ",
+    "category": "Salad",
+    "baseEnergy": 3717,
+    "bonus": 1.17,
+    "ingredients": { "マメミート": 9, "あったかジンジャー": 6, "とくせんエッグ": 5, "ほっこりポテト": 3 }
+  },
+  {
+    "name": "モーモーカプレーゼ",
+    "category": "Salad",
+    "baseEnergy": 2856,
+    "bonus": 1.11,
+    "ingredients": { "モーモーミルク": 12, "あんみんトマト": 6, "ピュアなオイル": 5 }
+  },
+  {
+    "name": "めんえきネギサラダ",
+    "category": "Salad",
+    "baseEnergy": 2658,
+    "bonus": 1.11,
+    "ingredients": { "ふといながねぎ": 10, "あったかジンジャー": 5 }
+  },
+  {
+    "name": "みだれづきコーンサラダ",
+    "category": "Salad",
+    "baseEnergy": 2525,
+    "bonus": 1.11,
+    "ingredients": { "ワカクサコーン": 9, "ピュアなオイル": 8 }
+  },
+  {
+    "name": "メロメロりんごのチーズサラダ",
+    "category": "Salad",
+    "baseEnergy": 2525,
+    "bonus": 1.11,
+    "ingredients": { "とくせんリンゴ": 15, "モーモーミルク": 5, "ピュアなオイル": 3 }
+  },
+  {
+    "name": "ねっぷうとうふサラダ",
+    "category": "Salad",
+    "baseEnergy": 2185,
+    "bonus": 1.11,
+    "ingredients": { "ワカクサ大豆": 10, "げきからハーブ": 6 }
+  },
+  {
+    "name": "ゆきかきシーザーサラダ",
+    "category": "Salad",
+    "baseEnergy": 1774,
+    "bonus": 1.11,
+    "ingredients": { "モーモーミルク": 10, "マメミート": 6 }
+  },
+  {
+    "name": "あんみんトマトサラダ",
+    "category": "Salad",
+    "baseEnergy": 864,
+    "bonus": 1.06,
+    "ingredients": { "あんみんトマト": 8 }
+  },
+  {
+    "name": "マメハムサラダ",
+    "category": "Salad",
+    "baseEnergy": 856,
+    "bonus": 1.06,
+    "ingredients": { "マメミート": 8 }
+  },
+  {
+    "name": "とくせんリンゴサラダ",
+    "category": "Salad",
+    "baseEnergy": 748,
+    "bonus": 1.06,
+    "ingredients": { "とくせんリンゴ": 8 }
   },
   {
     "name": "ドキドキこわいかおパンケーキ",
@@ -214,8 +361,162 @@ const allRecipes = [
     "name": "フラワーギフトマカロン",
     "category": "Dessert",
     "baseEnergy": 13834,
-    "bonus": 1.35,
+    "bonus": 1.48,
     "ingredients": { "リラックスカカオ": 25, "モーモーミルク": 10, "とくせんエッグ": 25, "あまいミツ": 17 }
+  },
+  {
+    "name": "おちゃかいコーンスコーン",
+    "category": "Dessert",
+    "baseEnergy": 10925,
+    "bonus": 1.48,
+    "ingredients": { "とくせんリンゴ": 20, "あったかジンジャー": 20, "ワカクサコーン": 18, "モーモーミルク": 9 }
+  },
+  {
+    "name": "グラスミキサースムージー",
+    "category": "Dessert",
+    "baseEnergy": 8165,
+    "bonus": 1.35,
+    "ingredients": { "つやつやアボカド": 18, "あんみんトマト": 16, "モーモーミルク": 14 }
+  },
+  {
+    "name": "プリンのプリンアラモード",
+    "category": "Dessert",
+    "baseEnergy": 7594,
+    "bonus": 1.35,
+    "ingredients": { "あまいミツ": 20, "とくせんエッグ": 15, "モーモーミルク": 10, "とくせんリンゴ": 10 }
+  },
+  {
+    "name": "かたやぶりコーンティラミス",
+    "category": "Dessert",
+    "baseEnergy": 7125,
+    "bonus": 1.35,
+    "ingredients": { "めざましコーヒー": 14, "ワカクサコーン": 14, "モーモーミルク": 12 }
+  },
+  {
+    "name": "はやおきコーヒーゼリー",
+    "category": "Dessert",
+    "baseEnergy": 6793,
+    "bonus": 1.35,
+    "ingredients": { "めざましコーヒー": 16, "モーモーミルク": 14, "あまいミツ": 12 }
+  },
+  {
+    "name": "だいばくはつポップコーン",
+    "category": "Dessert",
+    "baseEnergy": 6048,
+    "bonus": 1.35,
+    "ingredients": { "ワカクサコーン": 15, "ピュアなオイル": 14, "モーモーミルク": 7 }
+  },
+  {
+    "name": "ちからもちソイドーナッツ",
+    "category": "Dessert",
+    "baseEnergy": 5547,
+    "bonus": 1.35,
+    "ingredients": { "ワカクサ大豆": 16, "ピュアなオイル": 12, "リラックスカカオ": 7 }
+  },
+  {
+    "name": "ネロリのデトックスティー",
+    "category": "Dessert",
+    "baseEnergy": 5065,
+    "bonus": 1.25,
+    "ingredients": { "あったかジンジャー": 11, "とくせんリンゴ": 15, "あじわいキノコ": 9 }
+  },
+  {
+    "name": "ふくつのジンジャークッキー",
+    "category": "Dessert",
+    "baseEnergy": 4905,
+    "bonus": 1.25,
+    "ingredients": { "あまいミツ": 14, "あったかジンジャー": 12, "リラックスカカオ": 5, "とくせんエッグ": 4 }
+  },
+  {
+    "name": "あくまのキッスフルーツオレ",
+    "category": "Dessert",
+    "baseEnergy": 4794,
+    "bonus": 1.25,
+    "ingredients": { "とくせんリンゴ": 11, "モーモーミルク": 9, "あまいミツ": 7, "リラックスカカオ": 8 }
+  },
+  {
+    "name": "あまいかおりチョコケーキ",
+    "category": "Dessert",
+    "baseEnergy": 3280,
+    "bonus": 1.17,
+    "ingredients": { "あまいミツ": 9, "リラックスカカオ": 8, "モーモーミルク": 7 }
+  },
+  {
+    "name": "はなびらのまいチョコタルト",
+    "category": "Dessert",
+    "baseEnergy": 3280,
+    "bonus": 1.17,
+    "ingredients": { "リラックスカカオ": 11, "とくせんリンゴ": 11 }
+  },
+  {
+    "name": "はりきりプロテインスムージー",
+    "category": "Dessert",
+    "baseEnergy": 3165,
+    "bonus": 1.17,
+    "ingredients": { "ワカクサ大豆": 15, "リラックスカカオ": 8 }
+  },
+  {
+    "name": "おおきいマラサダ",
+    "category": "Dessert",
+    "baseEnergy": 2927,
+    "bonus": 1.17,
+    "ingredients": { "ピュアなオイル": 10, "モーモーミルク": 7, "あまいミツ": 6 }
+  },
+  {
+    "name": "かるわざソイケーキ",
+    "category": "Dessert",
+    "baseEnergy": 1827,
+    "bonus": 1.11,
+    "ingredients": { "とくせんエッグ": 8, "ワカクサ大豆": 7 }
+  },
+  {
+    "name": "マイペースやさいジュース",
+    "category": "Dessert",
+    "baseEnergy": 1754,
+    "bonus": 1.11,
+    "ingredients": { "あんみんトマト": 9, "とくせんリンゴ": 7 }
+  },
+  {
+    "name": "ひのこのジンジャーティー",
+    "category": "Dessert",
+    "baseEnergy": 1754,
+    "bonus": 1.11,
+    "ingredients": { "あったかジンジャー": 9, "とくせんリンゴ": 7 }
+  },
+  {
+    "name": "じゅくせいスイートポテト",
+    "category": "Dessert",
+    "baseEnergy": 1391,
+    "bonus": 1.11,
+    "ingredients": { "ほっこりポテト": 9, "モーモーミルク": 5 }
+  },
+  {
+    "name": "ねがいごとアップルパイ",
+    "category": "Dessert",
+    "baseEnergy": 1269,
+    "bonus": 1.11,
+    "ingredients": { "とくせんリンゴ": 12, "モーモーミルク": 4 }
+  },
+  {
+    "name": "クラフトサイコソーダ",
+    "category": "Dessert",
+    "baseEnergy": 956,
+    "bonus": 1.06,
+    "ingredients": { "あまいミツ": 9 }
+  },
+  {
+    "name": "とくせんリンゴジュース",
+    "category": "Dessert",
+    "baseEnergy": 748,
+    "bonus": 1.06,
+    "ingredients": { "とくせんリンゴ": 8 }
+  },
+  {
+    "name": "モーモーホットミルク",
+    "category": "Dessert",
+    "baseEnergy": 732,
+    "bonus": 1.06,
+    "ingredients": { "モーモーミルク": 7 }
   }
 ];
 
@@ -238,9 +539,9 @@ let selectedIngredients = new Set();
 let selectedCategories = new Set(allCategories);
 
 // 要素参照
+let ingredientContainer, categoryContainer, recipeContainer, countSpan, btnAllIngredients, btnAllCategories;
 const buttonElements = {}; 
 const categoryElements = {};
-let ingredientContainer, categoryContainer, recipeContainer, countSpan, btnAllIngredients, btnAllCategories;
 
 function init() {
     // DOM要素の取得
@@ -421,7 +722,7 @@ function updateDisplay() {
             })
             .join(' / ');
         
-        // 画像パス設定
+        // 画像ファイル名: 料理名.png
         const imagePath = `images/${recipe.name}.png`;
 
         div.innerHTML = `
