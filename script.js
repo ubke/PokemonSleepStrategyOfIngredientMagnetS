@@ -281,7 +281,7 @@ const allRecipes = [
     "ingredients": { "モーモーミルク": 12, "あんみんトマト": 6, "ピュアなオイル": 5 }
   },
   {
-    "name": "めんえきネギサラダ",
+    "name": "めんえきねぎサラダ",
     "category": "Salad",
     "baseEnergy": 2658,
     "bonus": 1.11,
