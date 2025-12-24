@@ -534,7 +534,9 @@ const allCategories = ['Curry', 'Salad', 'Dessert'];
 
 // --- アプリの状態 ---
 const allIngredients = Array.from(new Set(allRecipes.flatMap(r => Object.keys(r.ingredients)))).sort();
-let selectedIngredients = new Set();
+// ▼ 変更点: 初期状態で全ての食材を選択状態にする
+let selectedIngredients = new Set(allIngredients);
+
 // デフォルトでカテゴリは全て選択状態
 let selectedCategories = new Set(allCategories);
 
@@ -722,7 +724,6 @@ function updateDisplay() {
             })
             .join(' / ');
         
-        // 画像ファイル名: 料理名.png
         const imagePath = `images/${recipe.name}.png`;
 
         div.innerHTML = `
