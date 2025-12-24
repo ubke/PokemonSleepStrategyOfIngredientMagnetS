@@ -628,21 +628,6 @@ function isCookable(recipe) {
 // 画面更新
 function updateDisplay() {
     // 1. 検索ヒット判定（結果リスト用：部分一致でも出す）
-    const potentialCounts = {};
-    allIngredients.forEach(ing => potentialCounts[ing] = 0);
-
-    allRecipes.forEach(recipe => {
-        if (!selectedCategories.has(recipe.category)) return;
-
-        const recipeIngs = Object.keys(recipe.ingredients);
-        const missing = recipeIngs.filter(ing => !selectedIngredients.has(ing));
-        
-        if (missing.length === 1) {
-            potentialCounts[missing[0]]++;
-        }
-    });
-
-    // 2. 結果リストに表示するレシピのフィルタリング
     const results = allRecipes.filter(recipe => {
         if (!selectedCategories.has(recipe.category)) return false;
         if (selectedIngredients.size === 0) return false;
@@ -650,7 +635,7 @@ function updateDisplay() {
         return recipeIngs.some(ri => selectedIngredients.has(ri));
     });
 
-    // 3. 食材ボタンの表示更新
+    // 2. 食材ボタンの表示更新
     allIngredients.forEach(ing => {
         const btn = buttonElements[ing];
         if (!btn) return;
@@ -660,8 +645,9 @@ function updateDisplay() {
             btn.className = 'chip selected';
             btn.innerHTML = `${icon} ${ing}`;
         } else {
+            // ▼ ここを「今のリストの中で使用されている数」に戻す
             btn.className = 'chip';
-            const count = potentialCounts[ing];
+            const count = results.filter(r => r.ingredients.hasOwnProperty(ing)).length;
             
             if (count > 0) {
                 btn.innerHTML = `${icon} ${ing} <span style="color:#e91e63; font-weight:bold; margin-left:4px;">(${count})</span>`;
@@ -671,7 +657,7 @@ function updateDisplay() {
         }
     });
 
-    // 4. カテゴリ・全選択ボタンの見た目更新
+    // 3. カテゴリ・全選択ボタンの見た目更新
     allCategories.forEach(cat => {
         const btn = categoryElements[cat];
         if (selectedCategories.has(cat)) {
@@ -693,7 +679,7 @@ function updateDisplay() {
         btnAllCategories.classList.remove('selected');
     }
 
-    // 5. レシピリストの並び替え
+    // 4. レシピリストの並び替え
     results.sort((a, b) => {
         const aOk = isCookable(a);
         const bOk = isCookable(b);
@@ -702,10 +688,10 @@ function updateDisplay() {
         return b.baseEnergy - a.baseEnergy; 
     });
 
-    // 6. 描画
+    // 5. 描画
     recipeContainer.innerHTML = '';
     
-    // ▼ここを修正: 表示する件数を「リスト全体の数」ではなく「実際に作れる(isCookableがtrue)料理の数」に変更
+    // 表示する件数を「実際に作れる(isCookableがtrue)料理の数」にする
     const cookableCount = results.filter(isCookable).length;
     countSpan.textContent = cookableCount;
 
