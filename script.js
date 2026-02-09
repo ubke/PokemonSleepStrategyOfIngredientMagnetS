@@ -337,6 +337,13 @@ const allRecipes = [
     "ingredients": { "とくせんリンゴ": 8 }
   },
   {
+    "name": "みつあつめチョコワッフル",
+    "category": "Dessert",
+    "baseEnergy": 25484,
+    "bonus": 1.78,
+    "ingredients": { "あまいミツ": 38, "ワカクサコーン": 28, "ピュアなオイル": 28, "リラックスカカオ": 21 }
+  },
+  {
     "name": "ドキドキこわいかおパンケーキ",
     "category": "Dessert",
     "baseEnergy": 24354,
